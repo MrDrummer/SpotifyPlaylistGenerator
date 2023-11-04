@@ -1,0 +1,60 @@
+﻿@inherits LayoutComponentBase
+@using Microsoft.AspNetCore.Components.Authorization
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
+@inject Microsoft.AspNetCore.Authorization.IAuthorizationService AuthorizationService
+@inject HttpClient HttpClient
+
+<PageTitle>SpotifyAppAuth</PageTitle>
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu/>
+    </div>
+
+    <main>
+        
+        <div class="top-row px-4">
+        
+        @if (authState.User.Identity.IsAuthenticated)
+        {
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="logoutDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    @authState.User.Identity.Name
+                </button>
+                <div class="dropdown-menu" aria-labelledby="logoutDropdown">
+                    <button class="dropdown-item" @onclick="Logout">Log Out</button>
+                </div>
+            </div>
+        }
+        </div>
+
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>
+
+@code {
+    private AuthenticationState authState;
+
+    protected override async Task OnInitializedAsync()
+    {
+        authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+    }
+
+    private async Task Logout()
+    {
+        Console.WriteLine("Logging out");
+        var response = await HttpClient.PostAsync("/api/auth/logout", null);
+
+        if (response.IsSuccessStatusCode)
+        {
+            NavigationManager.NavigateTo("/", true);
+        }
+        else
+        {
+            // handle error, show user a notification, etc.
+        }
+    }
+}

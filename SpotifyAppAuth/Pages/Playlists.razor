@@ -1,0 +1,25 @@
+﻿@using SpotifyAPI.Web
+@using SpotifyAppAuth.Services
+@inject PlaylistService Playlist
+
+@page "/playlists"
+
+<h3>Playlists</h3>
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row row-cols-xl-4 row-cols-xxl-5 row-cols-auto g-4">
+    @foreach (var playlist in _playlists)
+    {
+        <PlaylistListItem Playlist="playlist"/>
+    }
+</div>
+
+
+@code {
+    private SpotifyClient _spotify;
+
+    private List<SimplePlaylist> _playlists = new ();
+    
+    protected override async Task OnInitializedAsync()
+    {
+        _playlists = await Playlist.GetCurrentUserPlaylists();
+    }
+}

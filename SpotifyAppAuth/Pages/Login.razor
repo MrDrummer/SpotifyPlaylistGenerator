@@ -1,0 +1,18 @@
+﻿@page "/login"
+@inject NavigationManager navManager
+@inject SpotifyClientBuilder spotifyClientBuilder
+@using SpotifyAPI.Web
+
+<h1>Hello, world!</h1>
+
+@code
+{
+    public PrivateUser Me { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var spotify = await spotifyClientBuilder.BuildClient();
+
+        Me = await spotify.UserProfile.Current();
+    }
+}

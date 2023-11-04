@@ -1,0 +1,26 @@
+﻿@using SpotifyAPI.Web
+
+<div class="col">
+    <div class="card mb-2" style="max-width: 540px;">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="@Playlist.Images[0].Url" class="img-fluid rounded-start" alt="@Playlist.Name"/>
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        @Playlist.Name
+                    </h5>
+                    <div class="card-subtitle mb-2 text-body-secondary">@Playlist.Owner.DisplayName</div>
+                    <div class="card-text">Tracks: @Playlist.Tracks.Total</div>
+                    <a href="#" class="btn btn-primary">Fetch</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public SimplePlaylist Playlist { get; set; }
+}
