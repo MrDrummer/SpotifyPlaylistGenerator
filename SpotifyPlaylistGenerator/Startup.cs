@@ -5,9 +5,9 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server;
 using Newtonsoft.Json.Linq;
 using SpotifyAPI.Web;
-using SpotifyAppAuth.Services;
+using SpotifyPlaylistGenerator.Services;
 
-namespace SpotifyAppAuth;
+namespace SpotifyPlaylistGenerator;
 
 public class Startup
 {

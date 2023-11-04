@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using SpotifyAPI.Web;
 
-namespace SpotifyAppAuth;
+namespace SpotifyPlaylistGenerator;
 
 public class SpotifyClientBuilder
 {

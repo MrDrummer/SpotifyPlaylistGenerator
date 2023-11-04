@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace SpotifyAppAuth.Controllers;
+namespace SpotifyPlaylistGenerator.Controllers;
 
 [ApiController]
 [Route("api/auth")]
