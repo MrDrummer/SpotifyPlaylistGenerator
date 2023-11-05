@@ -1,10 +1,17 @@
-using SpotifyPlaylistGenerator;
+using SpotifyPlaylistGenerator.DB;
+
+namespace SpotifyPlaylistGenerator;
 
 public class Program
 {
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
-        CreateHostBuilder(args).Build().Run();
+        var host = CreateHostBuilder(args).Build();
+
+        var serviceProvider = host.Services;
+        await SpotifyDbInitializer.InitializeAsync(serviceProvider);
+
+        host.Run();
     }
 
     public static IHostBuilder CreateHostBuilder(string[] args) =>

@@ -30,7 +30,7 @@ public class SpotifyPlaylistService : ISpotifyPlaylistService
         var firstPlaylistPage = await client.Playlists.CurrentUsers();
         
         var playlists = (await client.PaginateAll(firstPlaylistPage)).ToList();
-
+        
         return playlists.Select(p => p.ToPlaylist());
     }
 }

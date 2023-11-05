@@ -404,3 +404,5 @@ FodyWeavers.xsd
 
 !example.*.secrets.json
 
+*.bkp
+*.dtmp
