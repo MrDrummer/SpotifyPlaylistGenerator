@@ -1,6 +1,8 @@
 ﻿@using SpotifyAPI.Web
 @using SpotifyPlaylistGenerator.Models.Interfaces
 @using SpotifyPlaylistGenerator.Models.Models
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@using System.Security.Claims
 @inject IPlaylistService Playlist
 
 @page "/playlists"
@@ -30,7 +32,13 @@ else
     
     protected override async Task OnInitializedAsync()
     {
-        var playlists = await Playlist.GetUserPlaylists();
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        if (userId == null) return;
+        
+        var playlists = await Playlist.GetUserPlaylists(userId);
 
         _playlists = playlists.ToList();
     }

@@ -15,6 +15,8 @@ public class SpotifyDbContext : DbContext
     public DbSet<DbArtistTrack> ArtistTracks { get; set; }
     public DbSet<DbArtist> Artists { get; set; }
     public DbSet<DbArtistGenre> ArtistGenres { get; set; }
+    public DbSet<DbAppUser> AppUsers { get; set; }
+    public DbSet<DbAppUserPlaylist> AppUserPlaylists { get; set; }
     
     public SpotifyDbContext(DbContextOptions<SpotifyDbContext> options) : base(options) {}
 
@@ -89,6 +91,22 @@ public class SpotifyDbContext : DbContext
             .HasOne(p => p.Owner)
             .WithMany(u => u.Playlists)
             .HasForeignKey(p => p.OwnerId)
+            .OnDelete(DeleteBehavior.NoAction);
+        
+        // AppUser-Playlist relationship
+        modelBuilder.Entity<DbAppUserPlaylist>()
+            .HasKey(ap => new { ap.AppUserId, ap.PlaylistId });
+
+        modelBuilder.Entity<DbAppUserPlaylist>()
+            .HasOne(ap => ap.AppUser)
+            .WithMany(user => user.AssociatedPlaylists)
+            .HasForeignKey(ap => ap.AppUserId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        modelBuilder.Entity<DbAppUserPlaylist>()
+            .HasOne(ap => ap.Playlist)
+            .WithMany(playlist => playlist.AssociatedAppUsers)
+            .HasForeignKey(ap => ap.PlaylistId)
             .OnDelete(DeleteBehavior.NoAction);
     }
 }

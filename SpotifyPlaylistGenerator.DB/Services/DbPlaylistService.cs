@@ -1,4 +1,6 @@
-﻿using SpotifyPlaylistGenerator.DB.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using SpotifyPlaylistGenerator.DB.Converters;
+using SpotifyPlaylistGenerator.DB.Interfaces;
 using SpotifyPlaylistGenerator.Models.Models;
 
 namespace SpotifyPlaylistGenerator.DB.Services;
@@ -12,13 +14,20 @@ public class DbPlaylistService : IDbPlaylistService
         _context = context;
     }
     
-    public Task<int> GetUserPlaylistCount()
+    public async Task<int> GetUserPlaylistCount(string userId)
     {
-        throw new NotImplementedException();
+        var count = await _context.AppUserPlaylists
+            .CountAsync(aup => aup.AppUserId == userId);
+
+        return count;
     }
     
-    public Task<IEnumerable<Playlist>> GetUserPlaylists()
+    public async Task<IEnumerable<Playlist>> GetUserPlaylists(string userId)
     {
-        throw new NotImplementedException();
+        var playlists = await _context.Playlists
+            .Where(p => p.AssociatedAppUsers.Any(aup => aup.AppUserId == userId))
+            .ToListAsync();
+
+        return playlists.Select(p => p.ToPlaylist());
     }
 }

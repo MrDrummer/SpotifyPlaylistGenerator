@@ -16,23 +16,28 @@ public class PlaylistService : IPlaylistService
         _spotifyPlaylistService = spotifyPlaylistService;
     }
 
-    public async Task<IEnumerable<Playlist>> GetUserPlaylists()
+    public async Task<IEnumerable<Playlist>> GetUserPlaylists(string userId)
     {
-        // var spotifyPlaylistsTask = _spotifyPlaylistService.GetUserPlaylistCount();
-        // var dbPlaylistsTask = _dbPlaylistService.GetUserPlaylistCount();
-        //
-        // await Task.WhenAll(spotifyPlaylistsTask, dbPlaylistsTask);
-        //
-        // var spotifyPlaylistCount = await spotifyPlaylistsTask;
-        // var dbPlaylistCount = await dbPlaylistsTask;
-        //
-        // IBasePlaylistService fetchService = spotifyPlaylistCount == dbPlaylistCount
-        //     ? _spotifyPlaylistService
-        //     : _dbPlaylistService;
-        //
-        // var playlists = await fetchService.GetUserPlaylists();
+        
+        var spotifyPlaylistsTask = _spotifyPlaylistService.GetUserPlaylistCount(userId);
+        var dbPlaylistsTask = _dbPlaylistService.GetUserPlaylistCount(userId);
+        
+        await Task.WhenAll(spotifyPlaylistsTask, dbPlaylistsTask);
+        
+        var spotifyPlaylistCount = await spotifyPlaylistsTask;
+        var dbPlaylistCount = await dbPlaylistsTask;
 
-        var playlists = await _spotifyPlaylistService.GetUserPlaylists();
+        var fromDb = spotifyPlaylistCount == dbPlaylistCount;
+        
+        IBasePlaylistService fetchService = fromDb
+            ? _dbPlaylistService
+            : _spotifyPlaylistService;
+        
+        var playlists = await fetchService.GetUserPlaylists(userId);
+
+        // var playlists = await _spotifyPlaylistService.GetUserPlaylists();
+        
+        // If not from DB, save Spotify results to DB.
 
         return playlists;
     }

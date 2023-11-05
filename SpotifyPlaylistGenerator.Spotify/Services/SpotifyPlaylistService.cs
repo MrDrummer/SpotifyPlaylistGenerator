@@ -14,7 +14,7 @@ public class SpotifyPlaylistService : ISpotifyPlaylistService
         _spotifyServiceHolder = spotifyServiceHolder;
     }
 
-    public async Task<int> GetUserPlaylistCount()
+    public async Task<int> GetUserPlaylistCount(string userId)
     {
         var client = await _spotifyServiceHolder.GetClientAsync();
         
@@ -23,7 +23,7 @@ public class SpotifyPlaylistService : ISpotifyPlaylistService
         return firstPlaylistPage.Total ?? 0;
     }
 
-    public async Task<IEnumerable<Playlist>> GetUserPlaylists()
+    public async Task<IEnumerable<Playlist>> GetUserPlaylists(string userId)
     {
         var client = await _spotifyServiceHolder.GetClientAsync();
 

@@ -4,5 +4,5 @@ namespace SpotifyPlaylistGenerator.Models.Interfaces;
 
 public interface IPlaylistService
 {
-    Task<IEnumerable<Playlist>> GetUserPlaylists();
+    Task<IEnumerable<Playlist>> GetUserPlaylists(string userId);
 }

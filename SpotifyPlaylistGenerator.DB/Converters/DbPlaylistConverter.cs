@@ -17,7 +17,10 @@ public static class DbPlaylistConverter
     {
         return new Playlist
         {
-
+            Id = dbPlaylist.PlaylistId,
+            Name = dbPlaylist.Name,
+            Image = dbPlaylist.Image,
+            SnapshotId = dbPlaylist.SnapshotId
         };
     }
 }

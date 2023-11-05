@@ -13,6 +13,7 @@ public class DbPlaylist
     public bool Public { get; set; }
     
     public ICollection<DbPlaylistTrack> AssociatedTracks { get; set; }
+    public ICollection<DbAppUserPlaylist> AssociatedAppUsers { get; set; }
     
     public string OwnerId { get; set; }
     public DbUser Owner { get; set; }
