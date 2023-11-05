@@ -400,5 +400,7 @@ FodyWeavers.xsd
 *.sln.iml
 .idea
 
-secrets.json
+*.secrets.json
+
+!example.*.secrets.json
 

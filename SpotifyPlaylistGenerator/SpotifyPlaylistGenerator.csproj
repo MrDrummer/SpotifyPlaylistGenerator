@@ -9,16 +9,30 @@
 
     <ItemGroup>
         <PackageReference Include="AspNet.Security.OAuth.Spotify" Version="7.0.2" />
-        <PackageReference Include="SpotifyAPI.Web" Version="7.0.0" />
+        <PackageReference Include="SpotifyAPI.Web" Version="7.0.2" />
         <PackageReference Include="SpotifyAPI.Web.Auth" Version="7.0.0" />
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.11" />
     </ItemGroup>
 
     <ItemGroup>
       <Content Include="..\.dockerignore">
         <Link>.dockerignore</Link>
       </Content>
-      <Content Remove="secrets.json" />
-      <Content Remove="example.secrets.json" />
+        <Content Include="..\README.md">
+        </Content>
+        <Content Include="..\.gitignore">
+        </Content>
+      <Content Remove="example.postgres.secrets.json" />
+      <Content Remove="postgres.secrets.json" />
+      <Content Remove="example.spotify.secrets.json" />
+      <Content Remove="spotify.secrets.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\SpotifyPlaylistGenerator.Auth\SpotifyPlaylistGenerator.Auth.csproj" />
+      <ProjectReference Include="..\SpotifyPlaylistGenerator.Core\SpotifyPlaylistGenerator.Core.csproj" />
+      <ProjectReference Include="..\SpotifyPlaylistGenerator.Spotify\SpotifyPlaylistGenerator.Spotify.csproj" />
+      <ProjectReference Include="..\SpotifyPlaylistGenerator.Models\SpotifyPlaylistGenerator.Models.csproj" />
     </ItemGroup>
 
 </Project>

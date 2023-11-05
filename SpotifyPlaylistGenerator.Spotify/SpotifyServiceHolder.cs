@@ -1,6 +1,6 @@
 ﻿using SpotifyAPI.Web;
 
-namespace SpotifyPlaylistGenerator.Services;
+namespace SpotifyPlaylistGenerator.Spotify;
 
 public interface ISpotifyServiceHolder
 {

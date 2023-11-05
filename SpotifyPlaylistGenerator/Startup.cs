@@ -3,9 +3,17 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
 using SpotifyAPI.Web;
-using SpotifyPlaylistGenerator.Services;
+using SpotifyPlaylistGenerator.Core.Services;
+using SpotifyPlaylistGenerator.DB;
+using SpotifyPlaylistGenerator.DB.Interfaces;
+using SpotifyPlaylistGenerator.DB.Services;
+using SpotifyPlaylistGenerator.Models.Interfaces;
+using SpotifyPlaylistGenerator.Spotify;
+using SpotifyPlaylistGenerator.Spotify.Interfaces;
+using SpotifyPlaylistGenerator.Spotify.Services;
 
 namespace SpotifyPlaylistGenerator;
 
@@ -20,11 +28,25 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
+        var connectionString = $"Host={Configuration["HOST"]};Database={Configuration["DATABASE"]};Username={Configuration["USERNAME"]};Password={Configuration["PASSWORD"]};";
+
+        services.AddDbContext<SpotifyDbContext>(options =>
+            options.UseNpgsql(connectionString));
+        
         services.AddHttpContextAccessor();
         services.AddSingleton(SpotifyClientConfig.CreateDefault());
         services.AddTransient<SpotifyClientBuilder>();
         services.AddScoped<ISpotifyServiceHolder, SpotifyServiceHolder>();
-        services.AddScoped<PlaylistService>();
+        services.AddScoped<AuthenticationStateProvider, ServerAuthenticationStateProvider>();
+        services.AddScoped<DbContext, SpotifyDbContext>();
+        
+        services.AddScoped<IPlaylistService, PlaylistService>();
+        services.AddScoped<IDbPlaylistService, DbPlaylistService>();
+        services.AddScoped<ISpotifyPlaylistService, SpotifyPlaylistService>();
+
+        services.AddScoped<ITrackService, TrackService>();
+        services.AddScoped<IDbTrackService, DbTrackService>();
+        services.AddScoped<ISpotifyTrackService, SpotifyTrackService>();
 
         services.AddAuthorization(options =>
         {
@@ -91,7 +113,6 @@ public class Startup
         
         services.AddHttpClient();
         
-        services.AddScoped<AuthenticationStateProvider, ServerAuthenticationStateProvider>();
 
         services.AddRazorPages()
             .AddRazorPagesOptions(options =>

@@ -1,25 +1,37 @@
 ﻿@using SpotifyAPI.Web
-@using SpotifyPlaylistGenerator.Services
-@inject PlaylistService Playlist
+@using SpotifyPlaylistGenerator.Models.Interfaces
+@using SpotifyPlaylistGenerator.Models.Models
+@inject IPlaylistService Playlist
 
 @page "/playlists"
 
 <h3>Playlists</h3>
-<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row row-cols-xl-4 row-cols-xxl-5 row-cols-auto g-4">
-    @foreach (var playlist in _playlists)
-    {
-        <PlaylistListItem Playlist="playlist"/>
-    }
-</div>
+
+@if (_playlists == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row row-cols-xl-4 row-cols-xxl-5 row-cols-auto g-4">
+        @foreach (var playlist in _playlists)
+        {
+            <PlaylistListItem Playlist="playlist"/>
+        }
+    </div>
+}
+
 
 
 @code {
     private SpotifyClient _spotify;
 
-    private List<SimplePlaylist> _playlists = new ();
+    private List<Playlist>? _playlists;
     
     protected override async Task OnInitializedAsync()
     {
-        _playlists = await Playlist.GetCurrentUserPlaylists();
+        var playlists = await Playlist.GetUserPlaylists();
+
+        _playlists = playlists.ToList();
     }
 }

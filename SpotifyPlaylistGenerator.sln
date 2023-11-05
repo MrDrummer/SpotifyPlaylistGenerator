@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotifyPlaylistGenerator", "SpotifyPlaylistGenerator\SpotifyPlaylistGenerator.csproj", "{04426497-F58F-4AA8-931B-869614938705}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotifyPlaylistGenerator.Auth", "SpotifyPlaylistGenerator.Auth\SpotifyPlaylistGenerator.Auth.csproj", "{8943FDE0-4C83-461A-A183-0D1FCF855746}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotifyPlaylistGenerator.Spotify", "SpotifyPlaylistGenerator.Spotify\SpotifyPlaylistGenerator.Spotify.csproj", "{EC1F3E58-9B0E-4D18-B738-85BE0AAEF8C7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotifyPlaylistGenerator.Core", "SpotifyPlaylistGenerator.Core\SpotifyPlaylistGenerator.Core.csproj", "{AED2E630-862E-4A83-8CA3-DEFAFE1FAAC5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotifyPlaylistGenerator.DB", "SpotifyPlaylistGenerator.DB\SpotifyPlaylistGenerator.DB.csproj", "{57217692-9F90-4D78-8750-488D68CA0E17}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotifyPlaylistGenerator.Models", "SpotifyPlaylistGenerator.Models\SpotifyPlaylistGenerator.Models.csproj", "{E273BD0A-24B3-4576-B4D4-AA6C206A8830}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{04426497-F58F-4AA8-931B-869614938705}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04426497-F58F-4AA8-931B-869614938705}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04426497-F58F-4AA8-931B-869614938705}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04426497-F58F-4AA8-931B-869614938705}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8943FDE0-4C83-461A-A183-0D1FCF855746}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8943FDE0-4C83-461A-A183-0D1FCF855746}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8943FDE0-4C83-461A-A183-0D1FCF855746}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8943FDE0-4C83-461A-A183-0D1FCF855746}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC1F3E58-9B0E-4D18-B738-85BE0AAEF8C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC1F3E58-9B0E-4D18-B738-85BE0AAEF8C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC1F3E58-9B0E-4D18-B738-85BE0AAEF8C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC1F3E58-9B0E-4D18-B738-85BE0AAEF8C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AED2E630-862E-4A83-8CA3-DEFAFE1FAAC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AED2E630-862E-4A83-8CA3-DEFAFE1FAAC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AED2E630-862E-4A83-8CA3-DEFAFE1FAAC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AED2E630-862E-4A83-8CA3-DEFAFE1FAAC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57217692-9F90-4D78-8750-488D68CA0E17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57217692-9F90-4D78-8750-488D68CA0E17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57217692-9F90-4D78-8750-488D68CA0E17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57217692-9F90-4D78-8750-488D68CA0E17}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E273BD0A-24B3-4576-B4D4-AA6C206A8830}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E273BD0A-24B3-4576-B4D4-AA6C206A8830}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E273BD0A-24B3-4576-B4D4-AA6C206A8830}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E273BD0A-24B3-4576-B4D4-AA6C206A8830}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

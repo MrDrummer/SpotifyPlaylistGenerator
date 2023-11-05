@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AspNet.Security.OAuth.Spotify" Version="7.0.2" />
+        <PackageReference Include="SpotifyAPI.Web" Version="7.0.2" />
+        <PackageReference Include="SpotifyAPI.Web.Auth" Version="7.0.0" />
+    </ItemGroup>
+</Project>
