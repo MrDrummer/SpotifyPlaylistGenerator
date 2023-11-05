@@ -9,6 +9,7 @@ public class SpotifyDbInitializer
         using var scope = serviceProvider.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<SpotifyDbContext>();
 
+        await context.Database.EnsureDeletedAsync();
         await context.Database.EnsureCreatedAsync();
     }
 }
