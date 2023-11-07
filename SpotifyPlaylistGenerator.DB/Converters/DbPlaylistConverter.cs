@@ -9,7 +9,11 @@ public static class DbPlaylistConverter
     {
         return new DbPlaylist
         {
-
+            PlaylistId = playlist.Id,
+            Name = playlist.Name,
+            Image = playlist.Image,
+            SnapshotId = playlist.SnapshotId,
+            Public = playlist.Public
         };
     }
 
