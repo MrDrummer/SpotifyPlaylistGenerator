@@ -4,8 +4,8 @@ namespace SpotifyPlaylistGenerator.DB.Models;
 
 public class DbAppUserPlaylist
 {
-    [Key]
-    public int AppUserPlaylistId { get; set; }
+    // [Key]
+    // public int AppUserPlaylistId { get; set; }
     
     public string AppUserId { get; set; }
     public DbAppUser AppUser { get; set; }
