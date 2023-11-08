@@ -9,11 +9,12 @@ public static class DbPlaylistConverter
     {
         return new DbPlaylist
         {
-            PlaylistId = playlist.Id,
+            Id = playlist.Id,
             Name = playlist.Name,
             Image = playlist.Image,
             SnapshotId = playlist.SnapshotId,
-            Public = playlist.Public
+            Public = playlist.Public,
+            // OwnerId = playlist.OwnerId
         };
     }
 
@@ -21,10 +22,12 @@ public static class DbPlaylistConverter
     {
         return new Playlist
         {
-            Id = dbPlaylist.PlaylistId,
+            Id = dbPlaylist.Id,
             Name = dbPlaylist.Name,
             Image = dbPlaylist.Image,
-            SnapshotId = dbPlaylist.SnapshotId
+            SnapshotId = dbPlaylist.SnapshotId,
+            Public = dbPlaylist.Public,
+            // OwnerId = dbPlaylist.OwnerId
         };
     }
 }

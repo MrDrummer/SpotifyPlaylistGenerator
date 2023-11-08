@@ -28,10 +28,11 @@ else
 @code {
     private SpotifyClient _spotify;
 
-    private List<Playlist>? _playlists;
+    private IEnumerable<Playlist>? _playlists;
     
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        if (!firstRender) return;
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
         var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -39,7 +40,11 @@ else
         if (userId == null) return;
         
         var playlists = await Playlist.GetUserPlaylists(userId);
+        
+        Console.WriteLine("Playlists acquired!");
 
         _playlists = playlists.ToList();
+        
+        StateHasChanged();
     }
 }

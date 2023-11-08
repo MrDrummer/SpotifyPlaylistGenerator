@@ -87,11 +87,11 @@ public class SpotifyDbContext : DbContext
             .OnDelete(DeleteBehavior.NoAction);
 
         // Relationship between User and Playlist
-        modelBuilder.Entity<DbPlaylist>()
-            .HasOne(p => p.Owner)
-            .WithMany(u => u.Playlists)
-            .HasForeignKey(p => p.OwnerId)
-            .OnDelete(DeleteBehavior.NoAction);
+        // modelBuilder.Entity<DbPlaylist>()
+        //     .HasOne(p => p.Owner)
+        //     .WithMany(u => u.Playlists)
+        //     .HasForeignKey(p => p.OwnerId)
+        //     .OnDelete(DeleteBehavior.NoAction);
         
         // AppUser-Playlist relationship
         modelBuilder.Entity<DbAppUserPlaylist>()

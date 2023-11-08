@@ -1,4 +1,6 @@
-﻿using SpotifyPlaylistGenerator.DB.Interfaces;
+﻿using SpotifyPlaylistGenerator.DB.Converters;
+using SpotifyPlaylistGenerator.DB.Interfaces;
+using SpotifyPlaylistGenerator.DB.Models;
 using SpotifyPlaylistGenerator.Models.Interfaces;
 using SpotifyPlaylistGenerator.Models.Models;
 using SpotifyPlaylistGenerator.Spotify.Interfaces;
@@ -9,11 +11,13 @@ public class PlaylistService : IPlaylistService
 {
     private readonly IDbPlaylistService _dbPlaylistService;
     private readonly ISpotifyPlaylistService _spotifyPlaylistService;
+    private readonly IDbAppUserPlaylistService _dbAppUserPlaylistService;
 
-    public PlaylistService(IDbPlaylistService dbPlaylistService, ISpotifyPlaylistService spotifyPlaylistService)
+    public PlaylistService(IDbPlaylistService dbPlaylistService, ISpotifyPlaylistService spotifyPlaylistService, IDbAppUserPlaylistService appUserPlaylistService)
     {
         _dbPlaylistService = dbPlaylistService;
         _spotifyPlaylistService = spotifyPlaylistService;
+        _dbAppUserPlaylistService = appUserPlaylistService;
     }
 
     public async Task<IEnumerable<Playlist>> GetUserPlaylists(string userId)
@@ -28,17 +32,25 @@ public class PlaylistService : IPlaylistService
         var dbPlaylistCount = await dbPlaylistsTask;
 
         var fromDb = spotifyPlaylistCount == dbPlaylistCount;
+
+        Console.WriteLine("Sourcing data from {0}.", fromDb ? "Database" : "Spotify");
+        if (fromDb)
+        {
+            return await _dbPlaylistService.GetUserPlaylists(userId);
+        }
         
-        IBasePlaylistService fetchService = fromDb
-            ? _dbPlaylistService
-            : _spotifyPlaylistService;
+        var userPlaylists = await _spotifyPlaylistService.GetUserPlaylists(userId);
+
+        var userPlaylistList = userPlaylists.ToList();
         
-        var playlists = await fetchService.GetUserPlaylists(userId);
+        // Will be inserted at auth time, so this should never create a new AppUser!
+        await _dbAppUserPlaylistService.AddAppUserPlaylists(userPlaylistList.Select(p => p.ToDbPlaylist()), new DbAppUser
+        {
+            Id = userId
+        });
+        
+        return userPlaylistList;
 
         // var playlists = await _spotifyPlaylistService.GetUserPlaylists();
-        
-        // If not from DB, save Spotify results to DB.
-
-        return playlists;
     }
 }

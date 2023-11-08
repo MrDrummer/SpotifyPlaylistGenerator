@@ -1,6 +1,4 @@
-﻿using SpotifyPlaylistGenerator.Models.Models;
-
-namespace SpotifyPlaylistGenerator.Models.Interfaces;
+﻿namespace SpotifyPlaylistGenerator.Models.Interfaces;
 
 public interface IBasePlaylistService : IPlaylistService
 {

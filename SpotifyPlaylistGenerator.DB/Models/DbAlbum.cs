@@ -6,7 +6,7 @@ namespace SpotifyPlaylistGenerator.DB.Models;
 public class DbAlbum
 {
     [Key]
-    public string AlbumId { get; set; }
+    public string Id { get; set; }
     
     public string Name { get; set; }
     public DateTime ReleaseDate { get; set; }

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
+using Npgsql;
 using SpotifyAPI.Web;
 using SpotifyPlaylistGenerator.Core.Services;
 using SpotifyPlaylistGenerator.DB;
@@ -28,10 +29,18 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
-        var connectionString = $"Host={Configuration["HOST"]};Database={Configuration["DATABASE"]};Username={Configuration["USERNAME"]};Password={Configuration["PASSWORD"]};";
+        var builder = new NpgsqlConnectionStringBuilder
+        {
+            Host = Configuration["HOST"],
+            Database = Configuration["DATABASE"],
+            Username = Configuration["USERNAME"],
+            Password = Configuration["PASSWORD"],
+            IncludeErrorDetail = true
+        };
+        // var connectionString = $"Host={Configuration["HOST"]};Database={Configuration["DATABASE"]};Username={Configuration["USERNAME"]};Password={Configuration["PASSWORD"]};";
 
         services.AddDbContext<SpotifyDbContext>(options =>
-            options.UseNpgsql(connectionString));
+            options.UseNpgsql(builder.ConnectionString));
         
         services.AddHttpContextAccessor();
         services.AddSingleton(SpotifyClientConfig.CreateDefault());
@@ -47,6 +56,8 @@ public class Startup
         services.AddScoped<ITrackService, TrackService>();
         services.AddScoped<IDbTrackService, DbTrackService>();
         services.AddScoped<ISpotifyTrackService, SpotifyTrackService>();
+
+        services.AddScoped<IDbAppUserPlaylistService, DbAppUserPlaylistService>();
 
         services.AddAuthorization(options =>
         {
