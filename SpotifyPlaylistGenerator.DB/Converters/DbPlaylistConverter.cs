@@ -18,7 +18,7 @@ public static class DbPlaylistConverter
         };
     }
 
-    public static Playlist ToPlaylist(this DbPlaylist dbPlaylist)
+    public static Playlist ToPlaylist(this DbPlaylist dbPlaylist, int trackCount)
     {
         return new Playlist
         {
@@ -27,7 +27,9 @@ public static class DbPlaylistConverter
             Image = dbPlaylist.Image,
             SnapshotId = dbPlaylist.SnapshotId,
             Public = dbPlaylist.Public,
-            // OwnerId = dbPlaylist.OwnerId
+            // OwnerId = dbPlaylist.OwnerId,
+            // TODO: Tally of tracks for playlist needs to be fetched from DB
+            TrackCount = trackCount
         };
     }
 }

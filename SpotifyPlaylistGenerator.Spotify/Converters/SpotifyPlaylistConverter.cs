@@ -14,7 +14,7 @@ public static class SpotifyPlaylistConverter
             Name = spotifyPlaylist.Name,
             Image = spotifyPlaylist.Images[0].Url,
             SnapshotId = spotifyPlaylist.SnapshotId,
-            // TrackCount = spotifyPlaylist.Tracks.Total ?? 0
+            TrackCount = spotifyPlaylist.Tracks.Total ?? 0,
             // OwnerId = spotifyPlaylist.Owner.Id,
             Public = spotifyPlaylist.Public ?? false
         };

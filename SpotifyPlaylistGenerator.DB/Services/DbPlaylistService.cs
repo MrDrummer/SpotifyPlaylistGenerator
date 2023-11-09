@@ -27,9 +27,14 @@ public class DbPlaylistService : IDbPlaylistService
     {
         var playlists = await _context.Playlists
             .Where(p => p.AssociatedAppUsers.Any(aup => aup.AppUserId == userId))
+            .Select(p => new 
+            {
+                Playlist = p,
+                TrackCount = p.AssociatedTracks.Count()
+            })
             .ToListAsync();
 
-        return playlists.Select(p => p.ToPlaylist());
+        return playlists.Select(p => p.Playlist.ToPlaylist(p.TrackCount));
     }
 
     public async Task AddPlaylist(DbPlaylist playlist)
