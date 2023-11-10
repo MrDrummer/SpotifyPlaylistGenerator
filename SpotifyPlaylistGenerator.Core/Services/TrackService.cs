@@ -34,4 +34,9 @@ public class TrackService : ITrackService
 
         return tracks;
     }
+
+    public async Task<Dictionary<string, (int TrackCount, string SnapshotId)>> GetPlaylistChangeMeta(IEnumerable<Playlist> playlists)
+    {
+        return await _dbTrackService.GetPlaylistChangeMeta(playlists);
+    }
 }

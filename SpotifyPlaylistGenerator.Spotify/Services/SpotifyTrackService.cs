@@ -14,4 +14,9 @@ public class SpotifyTrackService : ISpotifyTrackService
     {
         throw new NotImplementedException();
     }
+
+    public Task<Dictionary<string, (int TrackCount, string SnapshotId)>> GetPlaylistChangeMeta(IEnumerable<Playlist> playlists)
+    {
+        throw new NotImplementedException();
+    }
 }

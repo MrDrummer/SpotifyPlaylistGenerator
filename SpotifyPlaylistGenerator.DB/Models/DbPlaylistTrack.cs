@@ -13,5 +13,7 @@ public class DbPlaylistTrack
     public string TrackId { get; set; }
     public DbTrack Track { get; set; }
     
+    // public int PlaylistPosition { get; set; }
+    
     public DateTime AddedAt { get; set; }
 }

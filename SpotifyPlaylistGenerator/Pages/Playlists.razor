@@ -4,6 +4,7 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @using System.Security.Claims
 @inject IPlaylistService Playlist
+@inject ITrackService Track
 
 @page "/playlists"
 
@@ -18,7 +19,7 @@ else
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row row-cols-xl-4 row-cols-xxl-5 row-cols-auto g-4">
         @foreach (var playlist in _playlists)
         {
-            <PlaylistListItem Playlist="playlist"/>
+            <PlaylistListItem Playlist="playlist" PlaylistChangeMeta="_playlistChangeMeta[playlist.Id]"/>
         }
     </div>
 }
@@ -29,6 +30,8 @@ else
     private SpotifyClient _spotify;
 
     private IEnumerable<Playlist>? _playlists;
+
+    private Dictionary<string, (int, string)> _playlistChangeMeta;
     
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -41,9 +44,11 @@ else
         
         var playlists = await Playlist.GetUserPlaylists(userId);
         
+        
         Console.WriteLine("Playlists acquired!");
 
         _playlists = playlists.ToList();
+        _playlistChangeMeta = await Track.GetPlaylistChangeMeta(_playlists);
         
         StateHasChanged();
     }

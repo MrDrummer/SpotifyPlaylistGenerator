@@ -23,21 +23,21 @@ public class PlaylistService : IPlaylistService
     public async Task<IEnumerable<Playlist>> GetUserPlaylists(string userId)
     {
         
-        var spotifyPlaylistsTask = _spotifyPlaylistService.GetUserPlaylistCount(userId);
-        var dbPlaylistsTask = _dbPlaylistService.GetUserPlaylistCount(userId);
-        
-        await Task.WhenAll(spotifyPlaylistsTask, dbPlaylistsTask);
-        
-        var spotifyPlaylistCount = await spotifyPlaylistsTask;
-        var dbPlaylistCount = await dbPlaylistsTask;
+        // var spotifyPlaylistsTask = _spotifyPlaylistService.GetUserPlaylistCount(userId);
+        // var dbPlaylistsTask = _dbPlaylistService.GetUserPlaylistCount(userId);
+        //
+        // await Task.WhenAll(spotifyPlaylistsTask, dbPlaylistsTask);
+        //
+        // var spotifyPlaylistCount = await spotifyPlaylistsTask;
+        // var dbPlaylistCount = await dbPlaylistsTask;
 
-        var fromDb = spotifyPlaylistCount == dbPlaylistCount;
-
-        Console.WriteLine("Sourcing data from {0}.", fromDb ? "Database" : "Spotify");
-        if (fromDb)
-        {
-            return await _dbPlaylistService.GetUserPlaylists(userId);
-        }
+        // var fromDb = spotifyPlaylistCount == dbPlaylistCount;
+        //
+        // Console.WriteLine("Sourcing data from {0}.", fromDb ? "Database" : "Spotify");
+        // if (fromDb)
+        // {
+        //     return await _dbPlaylistService.GetUserPlaylists(userId);
+        // }
         
         var userPlaylists = await _spotifyPlaylistService.GetUserPlaylists(userId);
 

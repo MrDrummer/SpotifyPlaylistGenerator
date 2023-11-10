@@ -4,5 +4,4 @@ namespace SpotifyPlaylistGenerator.DB.Interfaces;
 
 public interface IDbTrackService : IBaseTrackService
 {
-    
 }

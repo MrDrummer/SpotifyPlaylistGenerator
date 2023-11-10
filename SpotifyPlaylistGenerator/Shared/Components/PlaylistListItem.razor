@@ -11,10 +11,14 @@
                 <div class="card-body">
                     <h5 class="card-title">
                         @Playlist.Name
+                        @if (AllowRefresh)
+                        {
+                            
+                            <a @onclick="Refresh" class="btn"><i class="fa-solid fa-refresh"></i></a>
+                        }
                     </h5>
                     @* <div class="card-subtitle mb-2 text-body-secondary">@Playlist.Owner.DisplayName</div> *@
-                    <div class="card-text">Tracks: @Playlist.TrackCount</div>
-                    <a href="#" class="btn btn-primary">Fetch</a>
+                    <div class="card-text">Tracks: @Playlist.TrackCount (@PlaylistChangeMeta.TrackCount)</div>
                 </div>
             </div>
         </div>
@@ -24,4 +28,17 @@
 @code {
     [Parameter]
     public Playlist Playlist { get; set; }
+    
+    [Parameter]
+    public (int TrackCount, string SnapshotId) PlaylistChangeMeta { get; set; }
+
+    private bool _clicked = false;
+
+    private bool AllowRefresh => (Playlist.SnapshotId != PlaylistChangeMeta.SnapshotId || Playlist.TrackCount != PlaylistChangeMeta.TrackCount) && !_clicked;
+
+    private void Refresh()
+    {
+        _clicked = true;
+        Console.WriteLine("REFRESH!");
+    }
 }
