@@ -3,8 +3,7 @@
 @using SpotifyPlaylistGenerator.Models.Models
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @using System.Security.Claims
-@inject IPlaylistService Playlist
-@inject ITrackService Track
+@inject IPlaylistService PlaylistService
 
 @page "/playlists"
 
@@ -42,13 +41,13 @@ else
 
         if (userId == null) return;
         
-        var playlists = await Playlist.GetUserPlaylists(userId);
+        var playlists = await PlaylistService.GetUserPlaylists(userId);
         
         
         Console.WriteLine("Playlists acquired!");
 
         _playlists = playlists.ToList();
-        _playlistChangeMeta = await Track.GetPlaylistChangeMeta(_playlists);
+        _playlistChangeMeta = await PlaylistService.GetPlaylistsChangeMeta(_playlists);
         
         StateHasChanged();
     }

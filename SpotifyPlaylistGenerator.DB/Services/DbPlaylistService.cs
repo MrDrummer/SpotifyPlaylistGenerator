@@ -48,4 +48,30 @@ public class DbPlaylistService : IDbPlaylistService
         _context.Playlists.AddRange(playlists);
         await _context.SaveChangesAsync();
     }
+
+    public async Task<Dictionary<string, (int TrackCount, string SnapshotId)>> GetPlaylistsChangeMeta(IEnumerable<Playlist> playlists)
+    {
+        var playlistIds = playlists.Select(p => p.Id);
+        
+        return await _context.Playlists
+            .Include(p => p.AssociatedTracks)
+            .Where(p => playlistIds.Contains(p.Id))
+            .ToDictionaryAsync(
+                p => p.Id, 
+                p => (p.AssociatedTracks.Count, p.SnapshotId)
+            );
+    }
+
+    public async Task<(int TrackCount, string SnapshotId)> GetPlaylistChangeMeta(Playlist playlist)
+    {
+        var playlistId = playlist.Id;
+
+        var playlistData = await _context.Playlists
+            .Include(p => p.AssociatedTracks)
+            .Where(p => p.Id == playlistId)
+            .Select(p => new { p.AssociatedTracks.Count, p.SnapshotId })
+            .FirstOrDefaultAsync();
+
+        return (playlistData?.Count ?? 0, playlistData?.SnapshotId);
+    }
 }

@@ -53,4 +53,14 @@ public class PlaylistService : IPlaylistService
 
         // var playlists = await _spotifyPlaylistService.GetUserPlaylists();
     }
+
+    public async Task<Dictionary<string, (int TrackCount, string SnapshotId)>> GetPlaylistsChangeMeta(IEnumerable<Playlist> playlists)
+    {
+        return await _dbPlaylistService.GetPlaylistsChangeMeta(playlists);
+    }
+
+    public async Task<(int TrackCount, string SnapshotId)> GetPlaylistChangeMeta(Playlist playlists)
+    {
+        return await _dbPlaylistService.GetPlaylistChangeMeta(playlists);
+    }
 }

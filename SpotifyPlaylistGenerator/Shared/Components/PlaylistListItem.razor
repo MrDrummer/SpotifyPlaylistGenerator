@@ -1,5 +1,7 @@
 ﻿@using SpotifyAPI.Web
+@using SpotifyPlaylistGenerator.Models.Interfaces
 @using SpotifyPlaylistGenerator.Models.Models
+@inject IPlaylistService PlaylistService
 
 <div class="col">
     <div class="card mb-2" style="max-width: 540px;">
@@ -13,7 +15,6 @@
                         @Playlist.Name
                         @if (AllowRefresh)
                         {
-                            
                             <a @onclick="Refresh" class="btn"><i class="fa-solid fa-refresh"></i></a>
                         }
                     </h5>
@@ -32,13 +33,23 @@
     [Parameter]
     public (int TrackCount, string SnapshotId) PlaylistChangeMeta { get; set; }
 
-    private bool _clicked = false;
+    private bool _loading = false;
 
-    private bool AllowRefresh => (Playlist.SnapshotId != PlaylistChangeMeta.SnapshotId || Playlist.TrackCount != PlaylistChangeMeta.TrackCount) && !_clicked;
+    private bool AllowRefresh => (Playlist.SnapshotId != PlaylistChangeMeta.SnapshotId || Playlist.TrackCount != PlaylistChangeMeta.TrackCount) && !_loading;
 
-    private void Refresh()
+    private async Task Refresh()
     {
-        _clicked = true;
+        _loading = true;
         Console.WriteLine("REFRESH!");
+        
+        // Fetch and create/update track data
+
+        PlaylistChangeMeta = await PlaylistService.GetPlaylistChangeMeta(Playlist);
+        
+        StateHasChanged();
+        
+        _loading = false;
+        
+        // Toast notification to say that the track load has finished
     }
 }

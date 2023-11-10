@@ -33,4 +33,16 @@ public class SpotifyPlaylistService : ISpotifyPlaylistService
         
         return playlists.Select(p => p.ToPlaylist());
     }
+
+    public async Task<Dictionary<string, (int TrackCount, string SnapshotId)>> GetPlaylistsChangeMeta(IEnumerable<Playlist> playlists)
+    {
+        var client = await _spotifyServiceHolder.GetClientAsync();
+        throw new NotImplementedException();
+    }
+
+    public async Task<(int TrackCount, string SnapshotId)> GetPlaylistChangeMeta(Playlist playlist)
+    {
+        var client = await _spotifyServiceHolder.GetClientAsync();
+        throw new NotImplementedException();
+    }
 }

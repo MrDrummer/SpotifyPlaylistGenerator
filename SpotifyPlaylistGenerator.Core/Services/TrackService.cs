@@ -18,25 +18,23 @@ public class TrackService : ITrackService
     
     public async Task<IEnumerable<Track>> GetPlaylistTracks(string playlistId)
     {
-        var spotifyTracksTask = _spotifyTrackService.GetTrackCount();
-        var dbTracksTask = _dbTrackService.GetTrackCount();
+        var spotifyTracksTask = _spotifyTrackService.GetPlaylistTrackCount(playlistId);
+        var dbTracksTask = _dbTrackService.GetPlaylistTrackCount(playlistId);
 
         await Task.WhenAll(spotifyTracksTask, dbTracksTask);
 
         var spotifyTrackCount = await spotifyTracksTask;
         var dbTrackCount = await dbTracksTask;
 
-        IBaseTrackService fetchService = spotifyTrackCount == dbTrackCount
-            ? _spotifyTrackService
-            : _dbTrackService;
+        var fromDb = spotifyTrackCount == dbTrackCount;
 
-        var tracks = await fetchService.GetPlaylistTracks(playlistId);
+        if (fromDb)
+        {
+            return await _dbTrackService.GetPlaylistTracks(playlistId);
+        }
+
+        var tracks = await _spotifyTrackService.GetPlaylistTracks(playlistId);
 
         return tracks;
-    }
-
-    public async Task<Dictionary<string, (int TrackCount, string SnapshotId)>> GetPlaylistChangeMeta(IEnumerable<Playlist> playlists)
-    {
-        return await _dbTrackService.GetPlaylistChangeMeta(playlists);
     }
 }

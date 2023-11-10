@@ -13,7 +13,7 @@ public class DbTrackService : IDbTrackService
         _context = context;
     }
     
-    public Task<int> GetTrackCount()
+    public Task<int> GetPlaylistTrackCount(string playlistId)
     {
         throw new NotImplementedException();
     }
@@ -21,18 +21,5 @@ public class DbTrackService : IDbTrackService
     public Task<IEnumerable<Track>> GetPlaylistTracks(string playlistId)
     {
         throw new NotImplementedException();
-    }
-
-    public async Task<Dictionary<string, (int TrackCount, string SnapshotId)>> GetPlaylistChangeMeta(IEnumerable<Playlist> playlists)
-    {
-        var playlistIds = playlists.Select(p => p.Id);
-        
-        return await _context.Playlists
-            .Include(p => p.AssociatedTracks)
-            .Where(p => playlistIds.Contains(p.Id))
-            .ToDictionaryAsync(
-                p => p.Id, 
-                p => (p.AssociatedTracks.Count, p.SnapshotId)
-            );
     }
 }
