@@ -8,11 +8,17 @@ public class TrackService : ITrackService
 {
     private readonly IDbTrackService _dbTrackService;
     private readonly ISpotifyTrackService _spotifyTrackService;
+    private readonly IDbAlbumService _dbAlbumService;
+    private readonly IDbArtistService _dbArtistService;
+    private readonly IDbGenreService _dbGenreService;
 
-    public TrackService(IDbTrackService dbTrackService, ISpotifyTrackService spotifyTrackService)
+    public TrackService(IDbTrackService dbTrackService, ISpotifyTrackService spotifyTrackService, IDbAlbumService dbAlbumService, IDbArtistService dbArtistService, IDbGenreService dbGenreService)
     {
         _dbTrackService = dbTrackService;
         _spotifyTrackService = spotifyTrackService;
+        _dbAlbumService = dbAlbumService;
+        _dbArtistService = dbArtistService;
+        _dbGenreService = dbGenreService;
     }
     
     public async Task GetPlaylistTracksBasicMeta(string playlistId)

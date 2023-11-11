@@ -59,6 +59,10 @@ public class Startup
 
         services.AddScoped<IDbAppUserPlaylistService, DbAppUserPlaylistService>();
 
+        services.AddScoped<IDbAlbumService, DbAlbumService>();
+        services.AddScoped<IDbArtistService, DbArtistService>();
+        services.AddScoped<IDbGenreService, DbGenreService>();
+
         services.AddAuthorization(options =>
         {
             options.AddPolicy("Spotify", policy =>
