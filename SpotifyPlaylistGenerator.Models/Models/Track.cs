@@ -6,6 +6,6 @@ public class Track
     public string Name { get; set; }
     public int Duration { get; set; }
     public bool Explicit { get; set; }
-    public int discNumber { get; set; }
-    public int trackNumber { get; set; }
+    public int DiscNumber { get; set; }
+    public int TrackNumber { get; set; }
 }
