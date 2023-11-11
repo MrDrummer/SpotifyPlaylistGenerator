@@ -1,4 +1,5 @@
-﻿using SpotifyPlaylistGenerator.Models.Models;
+﻿using SpotifyPlaylistGenerator.Models.Interfaces;
+using SpotifyPlaylistGenerator.Models.Models;
 using SpotifyPlaylistGenerator.Spotify.Interfaces;
 
 namespace SpotifyPlaylistGenerator.Spotify.Services;
@@ -21,8 +22,9 @@ public class SpotifyTrackService : ISpotifyTrackService
         return playlist.Tracks?.Total ?? 0;
     }
     
-    public async Task<IEnumerable<Track>> GetPlaylistTracks(string playlistId)
+    public async Task<PlaylistTracksBasicMeta> GetPlaylistTracksBasicMeta(string playlistId)
     {
+        // TODO: USE AddOrUpdate
         var client = await _spotifyServiceHolder.GetClientAsync();
         throw new NotImplementedException();
         

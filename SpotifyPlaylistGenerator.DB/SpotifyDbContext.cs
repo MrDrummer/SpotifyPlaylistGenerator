@@ -24,7 +24,7 @@ public class SpotifyDbContext : DbContext
     {
         // Artist-Genre relationship
         modelBuilder.Entity<DbArtistGenre>()
-            .HasKey(ag => new { ag.ArtistId, ag.GenreId });
+            .HasKey(ag => new { ag.ArtistId, ag.Name });
 
         modelBuilder.Entity<DbArtistGenre>()
             .HasOne(ag => ag.Artist)
@@ -35,7 +35,7 @@ public class SpotifyDbContext : DbContext
         modelBuilder.Entity<DbArtistGenre>()
             .HasOne(ag => ag.Genre)
             .WithMany(genre => genre.AssociatedArtists)
-            .HasForeignKey(ag => ag.GenreId)
+            .HasForeignKey(ag => ag.Name)
             .OnDelete(DeleteBehavior.Cascade);
 
         // Artist-Track relationship
@@ -56,7 +56,7 @@ public class SpotifyDbContext : DbContext
 
         // Album-Genre relationship
         modelBuilder.Entity<DbAlbumGenre>()
-            .HasKey(ag => new { ag.AlbumId, ag.GenreId });
+            .HasKey(ag => new { ag.AlbumId, ag.Name });
 
         modelBuilder.Entity<DbAlbumGenre>()
             .HasOne(ag => ag.Album)
@@ -67,7 +67,7 @@ public class SpotifyDbContext : DbContext
         modelBuilder.Entity<DbAlbumGenre>()
             .HasOne(ag => ag.Genre)
             .WithMany(genre => genre.AssociatedAlbums)
-            .HasForeignKey(ag => ag.GenreId)
+            .HasForeignKey(ag => ag.Name)
             .OnDelete(DeleteBehavior.Cascade);
         
         // Playlist-Track relationship

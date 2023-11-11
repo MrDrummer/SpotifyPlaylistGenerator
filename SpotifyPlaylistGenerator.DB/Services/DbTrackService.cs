@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SpotifyPlaylistGenerator.DB.Interfaces;
+using SpotifyPlaylistGenerator.Models.Interfaces;
 using SpotifyPlaylistGenerator.Models.Models;
 
 namespace SpotifyPlaylistGenerator.DB.Services;
@@ -18,7 +19,7 @@ public class DbTrackService : IDbTrackService
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<Track>> GetPlaylistTracks(string playlistId)
+    public Task<PlaylistTracksBasicMeta> GetPlaylistTracksBasicMeta(string playlistId)
     {
         throw new NotImplementedException();
     }

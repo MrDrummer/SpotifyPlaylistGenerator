@@ -7,7 +7,7 @@ public class DbAlbumGenre
     // [Key]
     // public int AlbumGenreId { get; set; }
     
-    public int GenreId { get; set; }
+    public string Name { get; set; }
     public DbGenre Genre { get; set; }
     
     public string AlbumId { get; set; }
