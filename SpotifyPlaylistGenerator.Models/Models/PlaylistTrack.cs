@@ -2,6 +2,12 @@
 
 public class PlaylistTrack : Track
 {
-    public int PlaylistPosition { get; set; }
+    // Extends Track, so doesn't need the PlaylistTrack or TrackId.
+    // public int Id { get; set; }
+    
+    // public string TrackId { get; set; }
+    public string PlaylistId { get; set; }
+    
+    public int PlaylistIndex { get; set; }
     public DateTime AddedAt { get; set; }
 }

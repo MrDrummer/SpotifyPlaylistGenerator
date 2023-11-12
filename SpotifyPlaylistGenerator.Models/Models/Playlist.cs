@@ -13,4 +13,7 @@ public class Playlist
     
     // TODO: ADD THIS BACK IN! Not sure how to map this across without the base Playlist model also containing the Owner object.
     public string OwnerId { get; set; }
+    public User? Owner { get; set; }
+    
+    public IEnumerable<AppUser>? AppUsers { get; set; }
 }

@@ -8,4 +8,14 @@ public class Track
     public bool Explicit { get; set; }
     public int DiscNumber { get; set; }
     public int TrackNumber { get; set; }
+    
+    public Album? Album { get; set; }
+    
+    // Only present when in the context of a playlist.
+    // public PlaylistTrack? PlaylistTrack { get; set; }
+    
+    public IEnumerable<Playlist>? Playlists { get; set; }
+    
+    public IEnumerable<Artist> Artists { get; set; }
+    
 }
