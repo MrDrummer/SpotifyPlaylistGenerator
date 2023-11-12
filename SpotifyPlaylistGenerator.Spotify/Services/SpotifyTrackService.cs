@@ -2,6 +2,7 @@
 using SpotifyAPI.Web;
 using SpotifyAPI.Web.Http;
 using SpotifyPlaylistGenerator.Models.Interfaces;
+using SpotifyPlaylistGenerator.Spotify.Converters;
 using SpotifyPlaylistGenerator.Spotify.Interfaces;
 
 namespace SpotifyPlaylistGenerator.Spotify.Services;
@@ -55,17 +56,20 @@ public class SpotifyTrackService : ISpotifyTrackService
             album.Artists.ForEach(a => uniqueArtists.TryAdd(a.Id, a));
         }
 
+        // TODO: For every 100 Tracks, fetch the Detailed Track info.
+        // TODO: For every 100 Albums and Artists, fetch Full version
+        
         // Genres are only available on the FULL model for Artist and Album.
         return new PlaylistTracksBasicMeta
         {
-            // PlaylistTracks = playlistTracks
-            // UniqueAlbums = uniqueAlbums
-            // UniqueArtists = uniqueArtists
+            PlaylistTracks = playlistTracks.Select((pt, index) => pt.ToPlaylist(index)),
+            UniqueAlbums = uniqueAlbums.ToDictionary(p => p.Key, p => p.Value.ToAlbum()),
+            UniqueArtists = uniqueArtists.ToDictionary(p => p.Key, p => p.Value.ToArtist())
         };
         
     }
 
-    private async IAsyncEnumerable<PlaylistTrack<IPlayableItem>> Paginate(Paging<PlaylistTrack<IPlayableItem>>? paging,
+    private static async IAsyncEnumerable<PlaylistTrack<IPlayableItem>> Paginate(Paging<PlaylistTrack<IPlayableItem>>? paging,
         IAPIConnector connector, [EnumeratorCancellation] CancellationToken cancel = default)
     {
         var firstPage = paging;
@@ -84,5 +88,10 @@ public class SpotifyTrackService : ISpotifyTrackService
                 yield return track;
             }
         }
+    }
+
+    Task ITrackService.GetPlaylistTracksBasicMeta(string playlistId)
+    {
+        return GetPlaylistTracksBasicMeta(playlistId);
     }
 }

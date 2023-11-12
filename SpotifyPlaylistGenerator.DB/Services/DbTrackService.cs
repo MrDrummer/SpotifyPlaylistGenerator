@@ -19,7 +19,7 @@ public class DbTrackService : IDbTrackService
         throw new NotImplementedException();
     }
 
-    public Task<PlaylistTracksBasicMeta> GetPlaylistTracksBasicMeta(string playlistId)
+    public Task GetPlaylistTracksBasicMeta(string playlistId)
     {
         // TODO: USE AddOrUpdate
         throw new NotImplementedException();

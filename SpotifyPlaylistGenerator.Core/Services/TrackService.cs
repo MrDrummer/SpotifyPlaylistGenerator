@@ -1,4 +1,5 @@
-﻿using SpotifyPlaylistGenerator.DB.Interfaces;
+﻿using SpotifyPlaylistGenerator.DB.Converters;
+using SpotifyPlaylistGenerator.DB.Interfaces;
 using SpotifyPlaylistGenerator.Models.Interfaces;
 using SpotifyPlaylistGenerator.Spotify.Interfaces;
 
@@ -39,6 +40,15 @@ public class TrackService : ITrackService
         // }
 
         var playlistTracksBasicMeta = await _spotifyTrackService.GetPlaylistTracksBasicMeta(playlistId);
+
+        var playlists = playlistTracksBasicMeta.PlaylistTracks.Select(pt => pt.ToDbPlaylistTrack());
+        var artists = playlistTracksBasicMeta.UniqueArtists.ToDictionary(p => p.Key, p => p.Value.ToDbArtist());
+        var albums = playlistTracksBasicMeta.UniqueAlbums.ToDictionary(p => p.Key, p => p.Value.ToDbAlbum());
+        
+        Console.WriteLine("Playlist Count: {0}", playlists.Count());
+        Console.WriteLine("Artists Count: {0}", artists.Count);
+        Console.WriteLine("Albums Count: {0}", albums.Count);
+        
 
         // return tracks;
     }
