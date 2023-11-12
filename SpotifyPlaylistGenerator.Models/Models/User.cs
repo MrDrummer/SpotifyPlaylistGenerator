@@ -10,4 +10,5 @@ public class User
     public AppUser? AppUser { get; set; }
     
     public IEnumerable<Playlist>? Playlists { get; set; }
+    public IEnumerable<string>? PlaylistIds { get; set; }
 }

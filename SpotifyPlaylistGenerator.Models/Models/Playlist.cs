@@ -15,5 +15,6 @@ public class Playlist
     public string OwnerId { get; set; }
     public User? Owner { get; set; }
     
+    public IEnumerable<string>? AppUserIds { get; set; }
     public IEnumerable<AppUser>? AppUsers { get; set; }
 }

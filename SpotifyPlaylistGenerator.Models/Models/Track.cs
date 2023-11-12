@@ -14,8 +14,10 @@ public class Track
     // Only present when in the context of a playlist.
     // public PlaylistTrack? PlaylistTrack { get; set; }
     
+    public IEnumerable<string>? PlaylistIds { get; set; }
     public IEnumerable<Playlist>? Playlists { get; set; }
     
-    public IEnumerable<Artist> Artists { get; set; }
+    public IEnumerable<string>? ArtistIds { get; set; }
+    public IEnumerable<Artist>? Artists { get; set; }
     
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using SpotifyAPI.Web;
+using SpotifyAPI.Web.Http;
 
 namespace SpotifyPlaylistGenerator.Spotify;
 
@@ -21,4 +22,6 @@ public class SpotifyClientBuilder
 
         return new SpotifyClient(_spotifyClientConfig.WithToken(token));
     }
+
+    public IAPIConnector ApiConnector => _spotifyClientConfig.BuildAPIConnector();
 }

@@ -9,6 +9,9 @@ public class Artist // : User ?
     // FullArtist
     public string Image { get; set; }
     
+    public IEnumerable<string>? TrackIds { get; set; }
     public IEnumerable<Track>? Tracks { get; set; }
+    
+    public IEnumerable<string>? GenreIds { get; set; }
     public IEnumerable<Genre>? Genres { get; set; }
 }

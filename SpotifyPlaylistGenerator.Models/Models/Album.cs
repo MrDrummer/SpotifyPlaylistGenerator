@@ -14,6 +14,9 @@ public class Album
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public AlbumType AlbumType { get; set; }
     
+    public IEnumerable<string>? TrackIds { get; set; }
     public IEnumerable<Track>? Tracks { get; set; }
+    
+    public IEnumerable<string>? GenreIds { get; set; }
     public IEnumerable<Genre>? Genres { get; set; }
 }
