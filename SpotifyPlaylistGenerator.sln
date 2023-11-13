@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotifyPlaylistGenerator.DB
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotifyPlaylistGenerator.Models", "SpotifyPlaylistGenerator.Models\SpotifyPlaylistGenerator.Models.csproj", "{E273BD0A-24B3-4576-B4D4-AA6C206A8830}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotifyPlaylistGenerator.Utilities", "SpotifyPlaylistGenerator.Utilities\SpotifyPlaylistGenerator.Utilities.csproj", "{B061A30B-1A1A-4F43-ABBB-D4C7E6B20D7A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +44,9 @@ Global
 		{E273BD0A-24B3-4576-B4D4-AA6C206A8830}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E273BD0A-24B3-4576-B4D4-AA6C206A8830}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E273BD0A-24B3-4576-B4D4-AA6C206A8830}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B061A30B-1A1A-4F43-ABBB-D4C7E6B20D7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B061A30B-1A1A-4F43-ABBB-D4C7E6B20D7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B061A30B-1A1A-4F43-ABBB-D4C7E6B20D7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B061A30B-1A1A-4F43-ABBB-D4C7E6B20D7A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

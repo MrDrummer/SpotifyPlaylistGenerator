@@ -14,5 +14,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\SpotifyPlaylistGenerator.Models\SpotifyPlaylistGenerator.Models.csproj" />
+      <ProjectReference Include="..\SpotifyPlaylistGenerator.Utilities\SpotifyPlaylistGenerator.Utilities.csproj" />
     </ItemGroup>
 </Project>
