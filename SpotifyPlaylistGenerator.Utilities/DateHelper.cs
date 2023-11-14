@@ -6,7 +6,7 @@ public static class DateHelper
 {
     public static DateTime ConvertToDateTime(string dateString)
     {
-        if (DateTime.TryParseExact(dateString, new[] { "yyyy-MM", "yyyy-MM-dd" },
+        if (DateTime.TryParseExact(dateString, new[] { "yyyy", "yyyy-MM", "yyyy-MM-dd" },
                 CultureInfo.InvariantCulture,
                 DateTimeStyles.None,
                 out var date))

@@ -5,7 +5,7 @@ namespace SpotifyPlaylistGenerator.Spotify.Converters;
 
 public static class SpotifyPlaylistTrackConverter
 {
-    public static PlaylistTrack ToPlaylist(this PlaylistTrack<IPlayableItem> spotifyPlaylistTrack, int playlistIndex)
+    public static PlaylistTrack ToPlaylist(this PlaylistTrack<IPlayableItem> spotifyPlaylistTrack, string playlistId, int playlistIndex)
     {
         
         if (spotifyPlaylistTrack.Track.Type != ItemType.Track) throw new Exception("Playlist Item is not of type Track");
@@ -25,7 +25,8 @@ public static class SpotifyPlaylistTrackConverter
             AlbumId = fullTrack.Album.Id,
             ArtistIds = fullTrack.Artists.Select(a => a.Id),
             AddedAt = spotifyPlaylistTrack.AddedAt.Value,
-            PlaylistIndex = playlistIndex
+            PlaylistIndex = playlistIndex,
+            PlaylistId = playlistId
         };
     }
 }

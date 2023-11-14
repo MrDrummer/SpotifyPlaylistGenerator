@@ -12,7 +12,7 @@ public static class DbAlbumConverter
             Id = artist.Id,
             Name = artist.Name,
             Image = artist.Image,
-            ReleaseDate = artist.ReleaseDate
+            ReleaseDate = artist.ReleaseDate.ToUniversalTime()
         };
     }
 

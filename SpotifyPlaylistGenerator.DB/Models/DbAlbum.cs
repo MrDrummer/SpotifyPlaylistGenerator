@@ -10,7 +10,7 @@ public class DbAlbum
     
     public string Name { get; set; }
     public DateTime ReleaseDate { get; set; }
-    public string Image { get; set; }
+    public string? Image { get; set; }
     
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public AlbumType AlbumType { get; set; }

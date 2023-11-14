@@ -7,49 +7,48 @@ namespace SpotifyPlaylistGenerator.Core.Services;
 
 public class TrackService : ITrackService
 {
-    private readonly IDbTrackService _dbTrackService;
     private readonly ISpotifyTrackService _spotifyTrackService;
+    private readonly IDbTrackService _dbTrackService;
     private readonly IDbAlbumService _dbAlbumService;
     private readonly IDbArtistService _dbArtistService;
     private readonly IDbGenreService _dbGenreService;
+    private readonly IDbPlaylistService _dbPlaylistService;
 
-    public TrackService(IDbTrackService dbTrackService, ISpotifyTrackService spotifyTrackService, IDbAlbumService dbAlbumService, IDbArtistService dbArtistService, IDbGenreService dbGenreService)
+    public TrackService(IDbTrackService dbTrackService, ISpotifyTrackService spotifyTrackService, IDbAlbumService dbAlbumService, IDbArtistService dbArtistService, IDbGenreService dbGenreService, IDbPlaylistService dbPlaylistService)
     {
         _dbTrackService = dbTrackService;
         _spotifyTrackService = spotifyTrackService;
         _dbAlbumService = dbAlbumService;
         _dbArtistService = dbArtistService;
         _dbGenreService = dbGenreService;
+        _dbPlaylistService = dbPlaylistService;
     }
     
     public async Task GetPlaylistTracksBasicMeta(string playlistId)
     {
-        // var spotifyTracksTask = _spotifyTrackService.GetPlaylistTrackCount(playlistId);
-        // var dbTracksTask = _dbTrackService.GetPlaylistTrackCount(playlistId);
-        //
-        // await Task.WhenAll(spotifyTracksTask, dbTracksTask);
-        //
-        // var spotifyTrackCount = await spotifyTracksTask;
-        // var dbTrackCount = await dbTracksTask;
-        //
-        // var fromDb = spotifyTrackCount == dbTrackCount;
-        //
-        // // if (fromDb)
-        // {
-        //     return await _dbTrackService.GetPlaylistTracksBasicMeta(playlistId);
-        // }
+        
+        // TODO: Look into wrapping all of these statements below in Transactions so we can rollback in the event of any query erroring.
+        // There is no destructive behaviour, so it isn't that big of a deal.
 
         var playlistTracksBasicMeta = await _spotifyTrackService.GetPlaylistTracksBasicMeta(playlistId);
 
-        var playlists = playlistTracksBasicMeta.PlaylistTracks.Select(pt => pt.ToDbPlaylistTrack());
-        var artists = playlistTracksBasicMeta.UniqueArtists.ToDictionary(p => p.Key, p => p.Value.ToDbArtist());
-        var albums = playlistTracksBasicMeta.UniqueAlbums.ToDictionary(p => p.Key, p => p.Value.ToDbAlbum());
+        var artists = playlistTracksBasicMeta.UniqueArtists.Select(p => p.Value.ToDbArtist());
+        var albums = playlistTracksBasicMeta.UniqueAlbums.Select(p => p.Value.ToDbAlbum());
+        var playlistTracks = playlistTracksBasicMeta.PlaylistTracks.Select(pt => pt.ToDbPlaylistTrack());
         
-        Console.WriteLine("Playlist Count: {0}", playlists.Count());
-        Console.WriteLine("Artists Count: {0}", artists.Count);
-        Console.WriteLine("Albums Count: {0}", albums.Count);
+        Console.WriteLine("Artists Count: {0}", artists.Count());
+        await _dbArtistService.AddArtists(artists);
+        Console.WriteLine("Albums Count: {0}", albums.Count());
+        await _dbAlbumService.AddAlbums(albums);
+        Console.WriteLine("PlaylistTrack Count: {0}", playlistTracks.Count());
         
+        // Purge all PlaylistTrack entries so we don't end up with old Track positions lingering
 
-        // return tracks;
+        await _dbPlaylistService.RemovePlaylistTracks(playlistId);
+        
+        
+        await _dbTrackService.AddPlaylistTracks(playlistTracks);
+        
+        Console.WriteLine("GREAT SUCCESS!");
     }
 }

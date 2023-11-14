@@ -72,7 +72,7 @@ public class SpotifyDbContext : DbContext
         
         // Playlist-Track relationship
         modelBuilder.Entity<DbPlaylistTrack>()
-            .HasKey(pt => new { pt.PlaylistId, pt.TrackId });
+            .HasKey(pt => new { pt.PlaylistId, pt.TrackId, pt.PlaylistPosition });
 
         modelBuilder.Entity<DbPlaylistTrack>()
             .HasOne(pt => pt.Playlist)

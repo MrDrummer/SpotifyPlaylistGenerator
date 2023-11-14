@@ -40,7 +40,8 @@ public class Startup
         // var connectionString = $"Host={Configuration["HOST"]};Database={Configuration["DATABASE"]};Username={Configuration["USERNAME"]};Password={Configuration["PASSWORD"]};";
 
         services.AddDbContext<SpotifyDbContext>(options =>
-            options.UseNpgsql(builder.ConnectionString));
+            options.UseNpgsql(builder.ConnectionString)
+                .EnableSensitiveDataLogging());
         
         services.AddHttpContextAccessor();
         services.AddSingleton(SpotifyClientConfig.CreateDefault());

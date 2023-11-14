@@ -10,7 +10,7 @@ public class DbArtist
     public string Name { get; set; }
     
     // FullArtist
-    public string Image { get; set; }
+    public string? Image { get; set; }
     // public int Followers { get; set; }
     // public int Popularity { get; set; }
     

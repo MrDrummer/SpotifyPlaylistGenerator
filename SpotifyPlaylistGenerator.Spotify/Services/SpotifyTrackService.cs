@@ -28,11 +28,12 @@ public class SpotifyTrackService : ISpotifyTrackService
     public async Task<PlaylistTracksBasicMeta> GetPlaylistTracksBasicMeta(string playlistId)
     {
         var client = await _spotifyServiceHolder.GetClientAsync();
-        var connector = _spotifyServiceHolder.GetApiConnector();
+        var connector = await _spotifyServiceHolder.GetApiConnectorAsync();
 
         var firstQuery = await client.Playlists.Get(playlistId);
 
         var playlistTracks = new List<PlaylistTrack<IPlayableItem>>();
+        // var playlistTracks = new Dictionary<string, PlaylistTrack<IPlayableItem>>();
         var uniqueAlbums = new Dictionary<string, SimpleAlbum>();
         var uniqueArtists = new Dictionary<string, SimpleArtist>();
         /*
@@ -51,6 +52,7 @@ public class SpotifyTrackService : ISpotifyTrackService
             // track.IsLocal
             var album = fullTrack.Album;
             
+            // playlistTracks.TryAdd(fullTrack.Id, track);
             uniqueAlbums.TryAdd(album.Id, album);
             
             album.Artists.ForEach(a => uniqueArtists.TryAdd(a.Id, a));
@@ -62,7 +64,10 @@ public class SpotifyTrackService : ISpotifyTrackService
         // Genres are only available on the FULL model for Artist and Album.
         return new PlaylistTracksBasicMeta
         {
-            PlaylistTracks = playlistTracks.Select((pt, index) => pt.ToPlaylist(index)),
+            // Need to have tracks and playlistTracks separately!
+            
+            PlaylistTracks = playlistTracks.Select((pt, index) => pt.ToPlaylist(playlistId, index)),
+            // UniquePlaylistTracks = playlistTracks.ToDictionary(p => p.Key, p => p.Value.ToPlaylist(playlistId));
             UniqueAlbums = uniqueAlbums.ToDictionary(p => p.Key, p => p.Value.ToAlbum()),
             UniqueArtists = uniqueArtists.ToDictionary(p => p.Key, p => p.Value.ToArtist())
         };
@@ -83,6 +88,7 @@ public class SpotifyTrackService : ISpotifyTrackService
             firstPage = await connector
                 .Get<Paging<PlaylistTrack<IPlayableItem>>>(new Uri(firstPage.Next, UriKind.Absolute), cancel)
                 .ConfigureAwait(false);
+            Console.WriteLine(firstPage);
             foreach (var track in firstPage.Items)
             {
                 yield return track;

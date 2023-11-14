@@ -23,5 +23,11 @@ public class SpotifyClientBuilder
         return new SpotifyClient(_spotifyClientConfig.WithToken(token));
     }
 
-    public IAPIConnector ApiConnector => _spotifyClientConfig.BuildAPIConnector();
+    public async Task<IAPIConnector> BuildApiConnector()
+    {
+        var token = await _httpContextAccessor.HttpContext.GetTokenAsync("Spotify", "access_token");
+        return _spotifyClientConfig
+            .WithAuthenticator(new TokenAuthenticator(token, "Bearer"))
+            .BuildAPIConnector();
+    }
 }

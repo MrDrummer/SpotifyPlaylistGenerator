@@ -5,6 +5,7 @@ namespace SpotifyPlaylistGenerator.Models.Interfaces;
 public class PlaylistTracksBasicMeta
 {
     public IEnumerable<PlaylistTrack> PlaylistTracks { get; set; }
+    // public Dictionary<string, PlaylistTrack> UniquePlaylistTracks { get; set; }
     public Dictionary<string, Album> UniqueAlbums { get; set; }
     public Dictionary<string, Artist> UniqueArtists { get; set; }
     public string[] UniqueGenres { get; set; }

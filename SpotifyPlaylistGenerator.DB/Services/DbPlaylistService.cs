@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SpotifyPlaylistGenerator.DB.Converters;
+using SpotifyPlaylistGenerator.DB.Extensions;
 using SpotifyPlaylistGenerator.DB.Interfaces;
 using SpotifyPlaylistGenerator.DB.Models;
 using SpotifyPlaylistGenerator.Models.Models;
@@ -39,13 +40,13 @@ public class DbPlaylistService : IDbPlaylistService
 
     public async Task AddPlaylist(DbPlaylist playlist)
     {
-        _context.Playlists.Add(playlist);
+        await _context.Playlists.AddIfNotExistsAsync(playlist, p => p.Id == playlist.Id);
         await _context.SaveChangesAsync();
     }
     
     public async Task AddPlaylists(IEnumerable<DbPlaylist> playlists)
     {
-        _context.Playlists.AddRange(playlists);
+        await _context.Playlists.AddIfNotExistsRangeAsync(playlists.DistinctBy(p => p.Id), entity => e => e.Id == entity.Id);
         await _context.SaveChangesAsync();
     }
 
@@ -73,5 +74,15 @@ public class DbPlaylistService : IDbPlaylistService
             .FirstOrDefaultAsync();
 
         return (playlistData?.Count ?? 0, playlistData?.SnapshotId);
+    }
+
+    public async Task RemovePlaylistTracks(string playlistId)
+    {
+        
+        var tracksToRemove = _context.PlaylistTracks.Where(track => track.PlaylistId == playlistId);
+        
+        _context.PlaylistTracks.RemoveRange(tracksToRemove);
+
+        await _context.SaveChangesAsync();
     }
 }

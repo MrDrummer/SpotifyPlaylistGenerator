@@ -6,20 +6,21 @@ namespace SpotifyPlaylistGenerator.Spotify;
 public interface ISpotifyServiceHolder
 {
     Task<SpotifyClient> GetClientAsync();
-    IAPIConnector GetApiConnector();
+    Task<IAPIConnector> GetApiConnectorAsync();
 }
 
 public class SpotifyServiceHolder : ISpotifyServiceHolder
 {
     private Task<SpotifyClient> _clientTask;
-    private IAPIConnector _apiConnector;
+    private SpotifyClientBuilder _spotifyClientBuilder;
 
-    public SpotifyServiceHolder(SpotifyClientBuilder spotifyBuilder)
+    public SpotifyServiceHolder(SpotifyClientBuilder spotifyClientBuilder)
     {
-        _clientTask = spotifyBuilder.BuildClient();
-        _apiConnector = spotifyBuilder.ApiConnector;
+        _clientTask = spotifyClientBuilder.BuildClient();
+        _spotifyClientBuilder = spotifyClientBuilder;
     }
 
     public Task<SpotifyClient> GetClientAsync() => _clientTask;
-    public IAPIConnector GetApiConnector() => _apiConnector;
+    
+    public Task<IAPIConnector> GetApiConnectorAsync() => _spotifyClientBuilder.BuildApiConnector();
 }

@@ -5,15 +5,24 @@ namespace SpotifyPlaylistGenerator.DB.Converters;
 
 public static class DbPlaylistTrackConverter
 {
-    public static DbPlaylistTrack ToDbPlaylistTrack(this PlaylistTrack playlistTrack)
+    public static (DbPlaylistTrack, DbTrack) ToDbPlaylistTrack(this PlaylistTrack playlistTrack)
     {
-        return new DbPlaylistTrack
+        return (new DbPlaylistTrack
         {
             PlaylistId = playlistTrack.PlaylistId, // Junction Reference
             PlaylistPosition = playlistTrack.PlaylistIndex,
-            AddedAt = playlistTrack.AddedAt,
+            AddedAt = playlistTrack.AddedAt.ToUniversalTime(),
             TrackId = playlistTrack.Id // Junction Reference
-        };
+        }, new DbTrack
+        {
+            Id = playlistTrack.Id,
+            Name = playlistTrack.Name,
+            AlbumId = playlistTrack.AlbumId,
+            DiscNumber = playlistTrack.DiscNumber,
+            TrackNumber = playlistTrack.TrackNumber,
+            Explicit = playlistTrack.Explicit,
+            DurationMs = playlistTrack.Duration
+        });
     }
 
     public static PlaylistTrack ToPlaylistTrack(this DbPlaylistTrack dbPlaylistTrack)
