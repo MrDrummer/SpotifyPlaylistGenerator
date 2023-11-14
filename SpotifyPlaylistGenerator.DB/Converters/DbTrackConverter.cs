@@ -11,12 +11,12 @@ public static class DbTrackConverter
         {
             Id = track.Id,
             Name = track.Name,
-            AlbumId = track.AlbumId, // Junction Reference
+            AlbumId = track.AlbumId,
             DiscNumber = track.DiscNumber,
             TrackNumber = track.TrackNumber,
             Explicit = track.Explicit,
             DurationMs = track.Duration,
-            
+            AssociatedArtists = track.ArtistIds?.Select(artistId => new DbArtistTrack { TrackId = track.Id, ArtistId = artistId}).ToList()
         };
     }
 
@@ -30,7 +30,8 @@ public static class DbTrackConverter
             TrackNumber = dbTrack.TrackNumber,
             Explicit = dbTrack.Explicit,
             Duration = dbTrack.DurationMs,
-            AlbumId = dbTrack.AlbumId
+            AlbumId = dbTrack.AlbumId,
+            ArtistIds = dbTrack.AssociatedArtists.Select(a => a.ArtistId)
         };
     }
 }
