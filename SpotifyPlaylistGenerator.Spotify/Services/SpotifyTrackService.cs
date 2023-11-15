@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Data;
+using System.Runtime.CompilerServices;
 using SpotifyAPI.Web;
 using SpotifyAPI.Web.Http;
 using SpotifyPlaylistGenerator.Models.Interfaces;
@@ -46,16 +47,24 @@ public class SpotifyTrackService : ISpotifyTrackService
          */
         await foreach (var track in Paginate(firstQuery.Tracks, connector))
         {
-            playlistTracks.Add(track);
             if (track.Track.Type != ItemType.Track) continue;
             var fullTrack = track.Track as FullTrack;
+
+            if (fullTrack.Id == null) continue;
+            
+            playlistTracks.Add(track);
             // track.IsLocal
             var album = fullTrack.Album;
+
+            if (album.Id == null)
+            {
+                throw new NoNullAllowedException($"Album ID is null?! Track ID: {fullTrack.Id}, Track Name: {fullTrack.Name}");
+            }
             
             // playlistTracks.TryAdd(fullTrack.Id, track);
             uniqueAlbums.TryAdd(album.Id, album);
             
-            album.Artists.ForEach(a => uniqueArtists.TryAdd(a.Id, a));
+            fullTrack.Artists.ForEach(a => uniqueArtists.TryAdd(a.Id, a));
         }
 
         // TODO: For every 100 Tracks, fetch the Detailed Track info.
