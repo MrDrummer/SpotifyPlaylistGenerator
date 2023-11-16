@@ -16,7 +16,7 @@ public static class DbTrackConverter
             TrackNumber = track.TrackNumber,
             Explicit = track.Explicit,
             DurationMs = track.Duration,
-            AssociatedArtists = track.ArtistIds?.Select(artistId => new DbArtistTrack { TrackId = track.Id, ArtistId = artistId}).ToList()
+            AssociatedArtists = track.ArtistIds?.Select((artistId, index) => new DbArtistTrack { TrackId = track.Id, ArtistId = artistId, ArtistIndex = index}).ToList()
         };
     }
 

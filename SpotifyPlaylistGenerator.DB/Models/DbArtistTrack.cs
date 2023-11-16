@@ -12,4 +12,6 @@ public class DbArtistTrack
     
     public string TrackId { get; set; }
     public DbTrack Tracks { get; set; }
+    
+    public int ArtistIndex { get; set; }
 }

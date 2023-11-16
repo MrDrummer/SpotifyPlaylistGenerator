@@ -4,7 +4,7 @@ namespace SpotifyPlaylistGenerator.Utilities;
 
 public static class DateHelper
 {
-    public static DateTime ConvertToDateTime(string dateString)
+    public static DateTime? ConvertToDateTime(string dateString)
     {
         if (DateTime.TryParseExact(dateString, new[] { "yyyy", "yyyy-MM", "yyyy-MM-dd" },
                 CultureInfo.InvariantCulture,
@@ -14,6 +14,7 @@ public static class DateHelper
             return date;
         }
 
-        throw new ArgumentException("Invalid date format", nameof(dateString));
+        return null;
+        // throw new ArgumentException("Invalid date format", nameof(dateString));
     }
 }

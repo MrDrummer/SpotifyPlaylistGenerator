@@ -22,7 +22,7 @@ public static class DbPlaylistTrackConverter
             TrackNumber = playlistTrack.TrackNumber,
             Explicit = playlistTrack.Explicit,
             DurationMs = playlistTrack.Duration,
-            AssociatedArtists = playlistTrack.ArtistIds?.Select(artistId => new DbArtistTrack { TrackId = playlistTrack.Id, ArtistId = artistId}).ToList()
+            AssociatedArtists = playlistTrack.ArtistIds?.Select((artistId, index) => new DbArtistTrack { TrackId = playlistTrack.Id, ArtistId = artistId, ArtistIndex = index}).ToList()
         });
         
         // playlistTrack.Artists.Select(a => new DbArtistTrack { TrackId = a.Id})

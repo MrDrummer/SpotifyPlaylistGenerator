@@ -13,9 +13,9 @@ public static class SpotifyAlbumConverter
         {
             Id = spotifyAlbum.Id,
             Name = spotifyAlbum.Name,
-            Image = spotifyAlbum.Images[0].Url,
+            Image = spotifyAlbum.Images.Any() ? spotifyAlbum.Images[0].Url : "",
             AlbumType = AlbumType.Album, // spotifyAlbum.AlbumType
-            ReleaseDate = DateHelper.ConvertToDateTime(spotifyAlbum.ReleaseDate),
+            ReleaseDate = DateHelper.ConvertToDateTime(spotifyAlbum.ReleaseDate)?.ToUniversalTime(),
             // GenreIds = spotifyAlbum.Genres,
             // TrackIds = spotifyAlbum.Tracks
         };
