@@ -17,6 +17,7 @@ public static class SpotifyPlaylistTrackConverter
         {
             // TrackId
             Id = fullTrack.Id,
+            // TrackId = fullTrack.Id,
             Name = fullTrack.Name,
             Explicit = fullTrack.Explicit,
             Duration = fullTrack.DurationMs,
