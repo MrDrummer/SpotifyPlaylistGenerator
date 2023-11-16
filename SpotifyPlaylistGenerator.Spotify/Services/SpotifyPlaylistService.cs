@@ -45,4 +45,9 @@ public class SpotifyPlaylistService : ISpotifyPlaylistService
         var client = await _spotifyServiceHolder.GetClientAsync();
         throw new NotImplementedException();
     }
+
+    public Task UpdatePlaylistSnapshotId(string playlistId, string snapshotId)
+    {
+        throw new NotImplementedException();
+    }
 }

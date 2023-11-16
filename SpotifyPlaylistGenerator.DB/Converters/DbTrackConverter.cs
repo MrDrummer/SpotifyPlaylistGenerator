@@ -15,8 +15,10 @@ public static class DbTrackConverter
             DiscNumber = track.DiscNumber,
             TrackNumber = track.TrackNumber,
             Explicit = track.Explicit,
-            DurationMs = track.Duration,
-            AssociatedArtists = track.ArtistIds?.Select((artistId, index) => new DbArtistTrack { TrackId = track.Id, ArtistId = artistId, ArtistIndex = index}).ToList()
+            DurationMs = track.Duration
+            
+            // TODO: Make this a separate insert method
+            // AssociatedArtists = track.ArtistIds?.Select((artistId, index) => new DbArtistTrack { TrackId = track.Id, ArtistId = artistId, ArtistIndex = index}).ToList()
         };
     }
 
@@ -30,8 +32,8 @@ public static class DbTrackConverter
             TrackNumber = dbTrack.TrackNumber,
             Explicit = dbTrack.Explicit,
             Duration = dbTrack.DurationMs,
-            AlbumId = dbTrack.AlbumId,
-            ArtistIds = dbTrack.AssociatedArtists.Select(a => a.ArtistId)
+            AlbumId = dbTrack.AlbumId
+            // ArtistIds = dbTrack.AssociatedArtists.Select(a => a.ArtistId)
         };
     }
 }

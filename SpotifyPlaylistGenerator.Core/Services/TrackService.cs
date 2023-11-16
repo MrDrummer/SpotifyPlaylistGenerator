@@ -13,8 +13,9 @@ public class TrackService : ITrackService
     private readonly IDbArtistService _dbArtistService;
     private readonly IDbGenreService _dbGenreService;
     private readonly IDbPlaylistService _dbPlaylistService;
+    private readonly IPlaylistService _playlistService;
 
-    public TrackService(IDbTrackService dbTrackService, ISpotifyTrackService spotifyTrackService, IDbAlbumService dbAlbumService, IDbArtistService dbArtistService, IDbGenreService dbGenreService, IDbPlaylistService dbPlaylistService)
+    public TrackService(IDbTrackService dbTrackService, ISpotifyTrackService spotifyTrackService, IDbAlbumService dbAlbumService, IDbArtistService dbArtistService, IDbGenreService dbGenreService, IDbPlaylistService dbPlaylistService, IPlaylistService playlistService)
     {
         _dbTrackService = dbTrackService;
         _spotifyTrackService = spotifyTrackService;
@@ -22,6 +23,7 @@ public class TrackService : ITrackService
         _dbArtistService = dbArtistService;
         _dbGenreService = dbGenreService;
         _dbPlaylistService = dbPlaylistService;
+        _playlistService = playlistService;
     }
     
     public async Task GetPlaylistTracksBasicMeta(string playlistId)
@@ -46,8 +48,11 @@ public class TrackService : ITrackService
 
         await _dbPlaylistService.RemovePlaylistTracks(playlistId);
         
-        
         await _dbTrackService.AddPlaylistTracks(playlistTracks);
+
+        var snapshotId = playlistTracksBasicMeta.SnapshotId;
+
+        await _playlistService.UpdatePlaylistSnapshotId(playlistId, snapshotId);
         
         Console.WriteLine("GREAT SUCCESS!");
     }

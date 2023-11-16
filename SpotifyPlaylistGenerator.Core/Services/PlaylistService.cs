@@ -63,4 +63,13 @@ public class PlaylistService : IPlaylistService
     {
         return await _dbPlaylistService.GetPlaylistChangeMeta(playlists);
     }
+
+    public async Task UpdatePlaylistSnapshotId(string playlistId, string snapshotId)
+    {
+        await _dbPlaylistService.UpdatePlaylist(new DbPlaylist
+        {
+            Id = playlistId,
+            SnapshotId = snapshotId
+        });
+    }
 }

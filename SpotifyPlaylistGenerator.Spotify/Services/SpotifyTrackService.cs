@@ -73,6 +73,7 @@ public class SpotifyTrackService : ISpotifyTrackService
         // Genres are only available on the FULL model for Artist and Album.
         return new PlaylistTracksBasicMeta
         {
+            SnapshotId = firstQuery.SnapshotId,
             // Need to have tracks and playlistTracks separately!
             
             PlaylistTracks = playlistTracks.Select((pt, index) => pt.ToPlaylist(playlistId, index)),

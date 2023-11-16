@@ -50,6 +50,18 @@ public class DbPlaylistService : IDbPlaylistService
         await _context.SaveChangesAsync();
     }
 
+    public async Task UpdatePlaylist(DbPlaylist playlist)
+    {
+        await _context.Playlists.AddOrUpdateAsync(playlist, p => p.Id == playlist.Id);
+        await _context.SaveChangesAsync();
+    }
+    
+    public async Task UpdatePlaylists(IEnumerable<DbPlaylist> playlists)
+    {
+        await _context.Playlists.AddOrUpdateRangeAsync(playlists.DistinctBy(p => p.Id), entity => e => e.Id == entity.Id);
+        await _context.SaveChangesAsync();
+    }
+
     public async Task<Dictionary<string, (int TrackCount, string SnapshotId)>> GetPlaylistsChangeMeta(IEnumerable<Playlist> playlists)
     {
         var playlistIds = playlists.Select(p => p.Id);
@@ -74,6 +86,11 @@ public class DbPlaylistService : IDbPlaylistService
             .FirstOrDefaultAsync();
 
         return (playlistData?.Count ?? 0, playlistData?.SnapshotId);
+    }
+
+    public Task UpdatePlaylistSnapshotId(string playlistId, string snapshotId)
+    {
+        throw new NotImplementedException();
     }
 
     public async Task RemovePlaylistTracks(string playlistId)
