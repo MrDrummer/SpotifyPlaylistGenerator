@@ -9,6 +9,4 @@ public interface IDbPlaylistService : IBasePlaylistService
     Task AddPlaylists(IEnumerable<DbPlaylist> playlists);
     Task UpdatePlaylist(DbPlaylist playlist);
     Task UpdatePlaylists(IEnumerable<DbPlaylist> playlists);
-
-    Task RemovePlaylistTracks(string playlistId);
 }

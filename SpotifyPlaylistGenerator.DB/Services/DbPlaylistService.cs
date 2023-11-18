@@ -88,18 +88,14 @@ public class DbPlaylistService : IDbPlaylistService
         return (playlistData?.Count ?? 0, playlistData?.SnapshotId);
     }
 
-    public Task UpdatePlaylistSnapshotId(string playlistId, string snapshotId)
+    public async Task UpdatePlaylistSnapshotId(string playlistId, string snapshotId)
     {
-        throw new NotImplementedException();
-    }
+        var entity = await _context.Playlists.FindAsync(playlistId);
+        if (entity != null)
+        {
+            entity.SnapshotId = snapshotId;
 
-    public async Task RemovePlaylistTracks(string playlistId)
-    {
-        
-        var tracksToRemove = _context.PlaylistTracks.Where(track => track.PlaylistId == playlistId);
-        
-        _context.PlaylistTracks.RemoveRange(tracksToRemove);
-
-        await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+        }
     }
 }

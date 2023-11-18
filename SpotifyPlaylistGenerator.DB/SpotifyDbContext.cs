@@ -12,7 +12,7 @@ public class SpotifyDbContext : DbContext
     public DbSet<DbAlbum> Albums { get; set; }
     public DbSet<DbAlbumGenre> AlbumGenres { get; set; }
     public DbSet<DbGenre> Genres { get; set; }
-    public DbSet<DbArtistTrack> ArtistTracks { get; set; }
+    public DbSet<DbTrackArtist> ArtistTracks { get; set; }
     public DbSet<DbArtist> Artists { get; set; }
     public DbSet<DbArtistGenre> ArtistGenres { get; set; }
     public DbSet<DbAppUser> AppUsers { get; set; }
@@ -39,17 +39,17 @@ public class SpotifyDbContext : DbContext
             .OnDelete(DeleteBehavior.Cascade);
 
         // Artist-Track relationship
-        modelBuilder.Entity<DbArtistTrack>()
+        modelBuilder.Entity<DbTrackArtist>()
             .HasKey(at => new { at.ArtistId, at.TrackId });
 
-        modelBuilder.Entity<DbArtistTrack>()
+        modelBuilder.Entity<DbTrackArtist>()
             .HasOne(at => at.Artist)
             .WithMany(artist => artist.AssociatedTracks)
             .HasForeignKey(at => at.ArtistId)
             .OnDelete(DeleteBehavior.NoAction);
 
-        modelBuilder.Entity<DbArtistTrack>()
-            .HasOne(at => at.Tracks)
+        modelBuilder.Entity<DbTrackArtist>()
+            .HasOne(at => at.Track)
             .WithMany(track => track.AssociatedArtists)
             .HasForeignKey(at => at.TrackId)
             .OnDelete(DeleteBehavior.NoAction);

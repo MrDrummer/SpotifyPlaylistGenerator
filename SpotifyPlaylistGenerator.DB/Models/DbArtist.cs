@@ -18,5 +18,5 @@ public class DbArtist
     public ICollection<DbArtistGenre> AssociatedGenres { get; set; }
     
     // Only available from Spotify when looking up Track
-    public ICollection<DbArtistTrack> AssociatedTracks { get; set; }
+    public ICollection<DbTrackArtist> AssociatedTracks { get; set; }
 }

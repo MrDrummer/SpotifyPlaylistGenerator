@@ -66,10 +66,6 @@ public class PlaylistService : IPlaylistService
 
     public async Task UpdatePlaylistSnapshotId(string playlistId, string snapshotId)
     {
-        await _dbPlaylistService.UpdatePlaylist(new DbPlaylist
-        {
-            Id = playlistId,
-            SnapshotId = snapshotId
-        });
+        // await _dbPlaylistService.UpdatePlaylistSnapshotId(playlistId, snapshotId);
     }
 }

@@ -3,8 +3,10 @@ using System.Runtime.CompilerServices;
 using SpotifyAPI.Web;
 using SpotifyAPI.Web.Http;
 using SpotifyPlaylistGenerator.Models.Interfaces;
+using SpotifyPlaylistGenerator.Models.Models;
 using SpotifyPlaylistGenerator.Spotify.Converters;
 using SpotifyPlaylistGenerator.Spotify.Interfaces;
+using SpotifyPlaylistGenerator.Utilities;
 
 namespace SpotifyPlaylistGenerator.Spotify.Services;
 
@@ -33,27 +35,25 @@ public class SpotifyTrackService : ISpotifyTrackService
 
         var firstQuery = await client.Playlists.Get(playlistId);
 
-        var playlistTracks = new List<PlaylistTrack<IPlayableItem>>();
-        // var playlistTracks = new Dictionary<string, PlaylistTrack<IPlayableItem>>();
-        var uniqueAlbums = new Dictionary<string, SimpleAlbum>();
-        var uniqueArtists = new Dictionary<string, SimpleArtist>();
-        /*
-         * 1. Recursive fetch Playlist Tracks
-         * 2. Figure out where Track Detail comes in
-         * 3. Recursive fetch Track Album
-         * 4. Recursive fetch Track Artist
-         * 5. Handle Album Genres
-         * 6. Handle Artist Genres
-         */
+        var tracksDict = new Dictionary<string, FullTrack>();
+        var albumsDict = new Dictionary<string, SimpleAlbum>();
+        var artistsDict = new Dictionary<string, SimpleArtist>();
+        var playlistTracksList = new List<PlaylistTrack<IPlayableItem>>();
+        var trackArtistsDict = new Dictionary<string, IEnumerable<string>>();
+        // var albumGenres = new Dictionary<string, IEnumerable<string>>();
+        // var trackGenres = new Dictionary<string, IEnumerable<string>>();
+        // var genres = Array.Empty<string>();
+        
         await foreach (var track in Paginate(firstQuery.Tracks, connector))
         {
             if (track.Track.Type != ItemType.Track) continue;
             var fullTrack = track.Track as FullTrack;
 
-            if (fullTrack.Id == null) continue;
-            
-            playlistTracks.Add(track);
+            if (fullTrack?.Id == null) continue;
             // track.IsLocal
+            
+            playlistTracksList.Add(track);
+            tracksDict.TryAdd(fullTrack.Id, fullTrack);
             var album = fullTrack.Album;
 
             if (album.Id == null)
@@ -61,25 +61,42 @@ public class SpotifyTrackService : ISpotifyTrackService
                 throw new NoNullAllowedException($"Album ID is null?! Track ID: {fullTrack.Id}, Track Name: {fullTrack.Name}");
             }
             
-            // playlistTracks.TryAdd(fullTrack.Id, track);
-            uniqueAlbums.TryAdd(album.Id, album);
+            albumsDict.TryAdd(album.Id, album);
             
-            fullTrack.Artists.ForEach(a => uniqueArtists.TryAdd(a.Id, a));
+            // TODO: Album Genres are not available in BasicAlbum!
+            // albumGenres.Add(album.Id, album.);
+            
+            
+            fullTrack.Artists.ForEach(a =>
+            {
+                artistsDict.TryAdd(a.Id, a);
+                
+                // TODO: ArtistGenres are not available in BasicArtist either!!
+                // albumGenres.TryAdd(a.Id, a.)
+            });
+            trackArtistsDict.TryAdd(fullTrack.Id, fullTrack.Artists.Select(a => a.Id));
         }
 
         // TODO: For every 100 Tracks, fetch the Detailed Track info.
         // TODO: For every 100 Albums and Artists, fetch Full version
+
+
+
+
+        var trackArtists = trackArtistsDict.SelectMany(kvp =>
+            kvp.Value.Select((a, index) => new TrackArtist { TrackId = kvp.Key, ArtistId = a, ArtistIndex = index }));
         
         // Genres are only available on the FULL model for Artist and Album.
         return new PlaylistTracksBasicMeta
         {
             SnapshotId = firstQuery.SnapshotId,
             // Need to have tracks and playlistTracks separately!
-            
-            PlaylistTracks = playlistTracks.Select((pt, index) => pt.ToPlaylist(playlistId, index)),
+            Tracks = tracksDict.Select(t => t.Value.ToTrack()),
             // UniquePlaylistTracks = playlistTracks.ToDictionary(p => p.Key, p => p.Value.ToPlaylist(playlistId));
-            UniqueAlbums = uniqueAlbums.ToDictionary(p => p.Key, p => p.Value.ToAlbum()),
-            UniqueArtists = uniqueArtists.ToDictionary(p => p.Key, p => p.Value.ToArtist())
+            Albums = albumsDict.Select(p => p.Value.ToAlbum()),
+            Artists = artistsDict.Select(p => p.Value.ToArtist()),
+            PlaylistTracks = playlistTracksList.Select((pt, index) => pt.ToPlaylist(playlistId, index)),
+            TrackArtists = trackArtists.DistinctBy(ta => new { ta.ArtistId, ta.TrackId })
         };
         
     }
@@ -104,10 +121,5 @@ public class SpotifyTrackService : ISpotifyTrackService
                 yield return track;
             }
         }
-    }
-
-    Task ITrackService.GetPlaylistTracksBasicMeta(string playlistId)
-    {
-        return GetPlaylistTracksBasicMeta(playlistId);
     }
 }

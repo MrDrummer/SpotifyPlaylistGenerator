@@ -2,7 +2,7 @@
 @using SpotifyPlaylistGenerator.Models.Interfaces
 @using SpotifyPlaylistGenerator.Models.Models
 @inject IPlaylistService PlaylistService
-@inject ITrackService TrackService
+@inject IPlaylistTrackService PlaylistTrackService
 
 <div class="col">
     <div class="card mb-2" style="max-width: 540px;">
@@ -49,7 +49,7 @@
         
         // GetPlaylistTracksBasicMeta
 
-        await TrackService.GetPlaylistTracksBasicMeta(Playlist.Id);
+        await PlaylistTrackService.GetPlaylistTracksBasicMeta(Playlist.Id);
         
         StateHasChanged();
         

@@ -1,6 +1,6 @@
 ﻿namespace SpotifyPlaylistGenerator.Models.Models;
 
-public class PlaylistTrack : BaseTrack
+public class PlaylistTrack
 {
     // Extends Track, so doesn't need the PlaylistTrack or TrackId.
     // public int Id { get; set; }

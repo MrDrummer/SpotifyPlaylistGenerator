@@ -2,8 +2,5 @@
 
 public static class EnumerationHelper
 {
-    public static IEnumerable<T> DistinctBy<T, TKey>(this IEnumerable<T> items, Func<T, TKey> keySelector)
-    {
-        return items.GroupBy(keySelector).Select(g => g.First());
-    }
+    // Have you looked at DistinctBy? It supports composite uniqueness you muppet! e.g. `new { pt.PlaylistId, pt.TrackId, pt.PositionIndex }`
 }

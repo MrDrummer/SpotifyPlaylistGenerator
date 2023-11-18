@@ -44,24 +44,43 @@ public class Startup
                 .EnableSensitiveDataLogging());
         
         services.AddHttpContextAccessor();
+        
+        /* MISC */
         services.AddSingleton(SpotifyClientConfig.CreateDefault());
         services.AddTransient<SpotifyClientBuilder>();
         services.AddScoped<ISpotifyServiceHolder, SpotifyServiceHolder>();
         services.AddScoped<AuthenticationStateProvider, ServerAuthenticationStateProvider>();
         services.AddScoped<DbContext, SpotifyDbContext>();
         
+        services.AddScoped<DbDebug>();
+        
+        /* PLAYLIST */
         services.AddScoped<IPlaylistService, PlaylistService>();
         services.AddScoped<IDbPlaylistService, DbPlaylistService>();
         services.AddScoped<ISpotifyPlaylistService, SpotifyPlaylistService>();
 
+        /* PLAYLIST TRACK */
+        services.AddScoped<IPlaylistTrackService, PlaylistTrackService>();
+        services.AddScoped<IDbPlaylistTrackService, DbPlaylistTrackService>();
+
+        /* TRACK */
         services.AddScoped<ITrackService, TrackService>();
         services.AddScoped<IDbTrackService, DbTrackService>();
         services.AddScoped<ISpotifyTrackService, SpotifyTrackService>();
 
+        /* APP USER */
         services.AddScoped<IDbAppUserPlaylistService, DbAppUserPlaylistService>();
 
+        /* ALBUM */
         services.AddScoped<IDbAlbumService, DbAlbumService>();
+        
+        /* ARTIST */
         services.AddScoped<IDbArtistService, DbArtistService>();
+        
+        /* TRACK ARTIST */
+        services.AddScoped<IDbTrackArtistService, DbTrackArtistService>();
+        
+        /* GENRE */
         services.AddScoped<IDbGenreService, DbGenreService>();
 
         services.AddAuthorization(options =>

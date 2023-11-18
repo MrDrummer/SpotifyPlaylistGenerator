@@ -12,12 +12,12 @@ public class DbTrack
     public bool Explicit { get; set; }
     public int DiscNumber { get; set; }
     public int TrackNumber { get; set; }
-    public int Popularity { get; set; }
+    // public int Popularity { get; set; }
     
     
     public string AlbumId { get; set; }
     public DbAlbum Album { get; set; }
     
-    public ICollection<DbArtistTrack> AssociatedArtists { get; set; }
+    public ICollection<DbTrackArtist> AssociatedArtists { get; set; }
     public ICollection<DbPlaylistTrack> AsssociatedPlaylists { get; set; }
 }

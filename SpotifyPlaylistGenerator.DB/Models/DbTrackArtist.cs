@@ -2,7 +2,7 @@
 
 namespace SpotifyPlaylistGenerator.DB.Models;
 
-public class DbArtistTrack
+public class DbTrackArtist
 {
     // [Key]
     // public int ArtistTrackId { get; set; }
@@ -11,7 +11,7 @@ public class DbArtistTrack
     public DbArtist Artist { get; set; }
     
     public string TrackId { get; set; }
-    public DbTrack Tracks { get; set; }
+    public DbTrack Track { get; set; }
     
     public int ArtistIndex { get; set; }
 }

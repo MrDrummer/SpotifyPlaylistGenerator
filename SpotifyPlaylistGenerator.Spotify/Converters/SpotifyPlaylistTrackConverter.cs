@@ -16,15 +16,10 @@ public static class SpotifyPlaylistTrackConverter
         return new PlaylistTrack
         {
             // TrackId
-            Id = fullTrack.Id,
-            // TrackId = fullTrack.Id,
-            Name = fullTrack.Name,
-            Explicit = fullTrack.Explicit,
-            Duration = fullTrack.DurationMs,
-            DiscNumber = fullTrack.DiscNumber,
-            TrackNumber = fullTrack.TrackNumber,
-            AlbumId = fullTrack.Album.Id,
-            ArtistIds = fullTrack.Artists.Select(a => a.Id),
+            // Id = fullTrack.Id,
+            TrackId = fullTrack.Id,
+            // AlbumId = fullTrack.Album.Id,
+            // ArtistIds = fullTrack.Artists.Select(a => a.Id),
             AddedAt = spotifyPlaylistTrack.AddedAt.Value,
             PlaylistIndex = playlistIndex,
             PlaylistId = playlistId
