@@ -46,6 +46,8 @@ public class PlaylistTrackService : IPlaylistTrackService
     
     public async Task GetPlaylistTracksBasicMeta(string playlistId)
     {
+        // TODO: Needs a refactor. I need to get all tracks in the playlist first and only get the metadata for tracks not already in the DB.
+        // If I already have the track, I already have the Artist, Album and Genres.
         
         // TODO: Look into wrapping all of these statements below in Transactions so we can rollback in the event of any query erroring.
         // There is no destructive behaviour, so it isn't that big of a deal.

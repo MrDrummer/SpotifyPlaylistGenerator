@@ -122,4 +122,33 @@ public class SpotifyTrackService : ISpotifyTrackService
             }
         }
     }
+
+    public async Task<Track> GetFullTrack(string trackId)
+    {
+        var client = await _spotifyServiceHolder.GetClientAsync();
+
+        var track = await client.Tracks.Get(trackId);
+
+        return track.ToTrack();
+    }
+
+    public async Task<IEnumerable<Track>> GetFullTracks(IEnumerable<string> trackIds)
+    {
+        var client = await _spotifyServiceHolder.GetClientAsync();
+
+        var tracks = await client.Tracks.GetSeveral(new TracksRequest(trackIds.ToList()));
+
+        return tracks.Tracks.Select(a => a.ToTrack());
+    }
+
+    // TODO: How to structure TrackAudioFeatures within the database?
+    public async Task<TrackAudioFeatures> GetTrackAudioFeatures(string trackId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<IEnumerable<TrackAudioFeatures>> GetTracksAudioFeatures(IEnumerable<string> trackIds)
+    {
+        throw new NotImplementedException();
+    }
 }

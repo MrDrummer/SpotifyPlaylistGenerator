@@ -10,8 +10,18 @@ public static class SpotifyArtistConverter
         return new Artist
         {
             Id = spotifyArtist.Id,
+            Name = spotifyArtist.Name
+        };
+    }
+    
+    public static Artist ToArtist(this FullArtist spotifyArtist)
+    {
+        return new Artist
+        {
+            Id = spotifyArtist.Id,
             Name = spotifyArtist.Name,
-            // Image = spotifyArtist.Images[0].Url
+            Image = spotifyArtist.Images.Any() ? spotifyArtist.Images[0].Url : null,
+            Genres = spotifyArtist.Genres
         };
     }
 }

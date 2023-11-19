@@ -18,7 +18,7 @@ public static class SpotifyTrackConverter
             DiscNumber = spotifyTrack.DiscNumber,
             TrackNumber = spotifyTrack.TrackNumber,
             AlbumId = spotifyTrack.Album.Id,
-            ArtistIds = spotifyTrack.Artists.Select(a => a.Id),
+            // ArtistIds = spotifyTrack.Artists.Select(a => a.Id),
         };
     }
 }
