@@ -54,6 +54,9 @@ public class Startup
         
         services.AddScoped<DbDebug>();
         
+        
+        // I just realised that perhaps most of these services could just be static methods?
+        
         /* PLAYLIST */
         services.AddScoped<IPlaylistService, PlaylistService>();
         services.AddScoped<IDbPlaylistService, DbPlaylistService>();
@@ -73,12 +76,20 @@ public class Startup
 
         /* ALBUM */
         services.AddScoped<IDbAlbumService, DbAlbumService>();
+        services.AddScoped<ISpotifyAlbumService, SpotifyAlbumService>();
         
         /* ARTIST */
         services.AddScoped<IDbArtistService, DbArtistService>();
+        services.AddScoped<ISpotifyArtistService, SpotifyArtistService>();
         
         /* TRACK ARTIST */
         services.AddScoped<IDbTrackArtistService, DbTrackArtistService>();
+        
+        /* ARTIST GENRE */
+        services.AddScoped<IDbArtistGenreService, DbArtistGenreService>();
+        
+        /* ALBUM GENRE */
+        services.AddScoped<IDbAlbumGenreService, DbAlbumGenreService>();
         
         /* GENRE */
         services.AddScoped<IDbGenreService, DbGenreService>();

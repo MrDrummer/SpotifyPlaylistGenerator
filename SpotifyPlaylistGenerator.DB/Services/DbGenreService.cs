@@ -1,4 +1,5 @@
-﻿using SpotifyPlaylistGenerator.DB.Interfaces;
+﻿using SpotifyPlaylistGenerator.DB.Extensions;
+using SpotifyPlaylistGenerator.DB.Interfaces;
 using SpotifyPlaylistGenerator.DB.Models;
 
 namespace SpotifyPlaylistGenerator.DB.Services;
@@ -12,13 +13,15 @@ public class DbGenreService : IDbGenreService
         _context = context;
     }
 
-    public Task AddGenre(DbGenre genre)
+    public async Task AddGenre(DbGenre genre)
     {
-        throw new NotImplementedException();
+        await _context.Genres.AddIfNotExistsAsync(genre, g => g.Name == genre.Name);
+        await _context.SaveChangesAsync();
     }
 
-    public Task AddGenres(IEnumerable<DbGenre> genres)
+    public async Task AddGenres(IEnumerable<DbGenre> genres)
     {
-        throw new NotImplementedException();
+        await _context.Genres.AddIfNotExistsRangeAsync(genres.DistinctBy(g => g.Name), entity => e => e.Name == entity.Name);
+        await _context.SaveChangesAsync();
     }
 }

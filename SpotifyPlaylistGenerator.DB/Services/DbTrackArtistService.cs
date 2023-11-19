@@ -12,11 +12,6 @@ public class DbTrackArtistService : IDbTrackArtistService
     {
         _context = context;
     }
-    
-    public Task<int> GetPlaylistTrackCount(string playlistId)
-    {
-        throw new NotImplementedException();
-    }
 
     public async Task AddTrackArtist(DbTrackArtist trackArtist)
     {
@@ -38,10 +33,5 @@ public class DbTrackArtistService : IDbTrackArtistService
                     e.TrackId == entity.TrackId
                 );
         await _context.SaveChangesAsync();
-    }
-
-    public Task GetPlaylistTracksBasicMeta(string playlistId)
-    {
-        throw new NotImplementedException();
     }
 }

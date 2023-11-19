@@ -6,7 +6,6 @@ using SpotifyPlaylistGenerator.Models.Interfaces;
 using SpotifyPlaylistGenerator.Models.Models;
 using SpotifyPlaylistGenerator.Spotify.Converters;
 using SpotifyPlaylistGenerator.Spotify.Interfaces;
-using SpotifyPlaylistGenerator.Utilities;
 
 namespace SpotifyPlaylistGenerator.Spotify.Services;
 
@@ -40,9 +39,6 @@ public class SpotifyTrackService : ISpotifyTrackService
         var artistsDict = new Dictionary<string, SimpleArtist>();
         var playlistTracksList = new List<PlaylistTrack<IPlayableItem>>();
         var trackArtistsDict = new Dictionary<string, IEnumerable<string>>();
-        // var albumGenres = new Dictionary<string, IEnumerable<string>>();
-        // var trackGenres = new Dictionary<string, IEnumerable<string>>();
-        // var genres = Array.Empty<string>();
         
         await foreach (var track in Paginate(firstQuery.Tracks, connector))
         {
@@ -63,22 +59,10 @@ public class SpotifyTrackService : ISpotifyTrackService
             
             albumsDict.TryAdd(album.Id, album);
             
-            // TODO: Album Genres are not available in BasicAlbum!
-            // albumGenres.Add(album.Id, album.);
-            
-            
-            fullTrack.Artists.ForEach(a =>
-            {
-                artistsDict.TryAdd(a.Id, a);
-                
-                // TODO: ArtistGenres are not available in BasicArtist either!!
-                // albumGenres.TryAdd(a.Id, a.)
-            });
+            fullTrack.Artists.ForEach(a => artistsDict.TryAdd(a.Id, a));
             trackArtistsDict.TryAdd(fullTrack.Id, fullTrack.Artists.Select(a => a.Id));
         }
 
-        // TODO: For every 100 Tracks, fetch the Detailed Track info.
-        // TODO: For every 100 Albums and Artists, fetch Full version
 
 
 
