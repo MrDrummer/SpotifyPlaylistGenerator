@@ -24,10 +24,10 @@ public class DbArtistGenreService : IDbArtistGenreService
 
     public async Task AddArtistGenres(IEnumerable<DbArtistGenre> artistGenres)
     {
-        await _context.ArtistGenres.AddIfNotExistsRangeAsync(artistGenres, entity =>
+        await _context.ArtistGenres.AddIfNotExistsRangeAsync(artistGenres.DistinctBy(ag => new { ag.ArtistId, ag.Name }), entity =>
             e =>
                 e.ArtistId == entity.ArtistId &&
-                e.Genre == entity.Genre
+                e.Name == entity.Name
             );
         await _context.SaveChangesAsync();
     }

@@ -24,10 +24,10 @@ public class DbAlbumGenreService : IDbAlbumGenreService
 
     public async Task AddAlbumGenres(IEnumerable<DbAlbumGenre> albumGenres)
     {
-        await _context.AlbumGenres.AddIfNotExistsRangeAsync(albumGenres, entity =>
+        await _context.AlbumGenres.AddIfNotExistsRangeAsync(albumGenres.DistinctBy(ag => new { ag.AlbumId, ag.Name }), entity =>
             e =>
                 e.AlbumId == entity.AlbumId &&
-                e.Genre == entity.Genre
+                e.Name == entity.Name
         );
         await _context.SaveChangesAsync();
     }
